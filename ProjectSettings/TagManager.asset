@@ -10,6 +10,8 @@ TagManager:
   - GM
   - BM
   - StartNewGame
+  - Tile
+  - TriggerTile
   layers:
   - Default
   - TransparentFX
