@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 73c891b543bb0e14ba37f1c1ed81bbd3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - tile: {fileID: 1057987197705154843, guid: 5b003441baa68d9449bc8ece2b593549, type: 3}
+  - blackPawn: {fileID: 5687147776274526644, guid: 303af617498c3e7439b75e4b829cfcae,
+      type: 3}
+  - whitePawn: {fileID: 908078902200516055, guid: b4618d65fd663de47bc0fe59f28f09c5,
+      type: 3}
+  - emptyPawn: {fileID: 5687147776274526644, guid: 56c1acf9a6317b64ba2ff41cf3f5406a,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
