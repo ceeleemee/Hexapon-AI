@@ -41,7 +41,7 @@ public class BotManager : MonoBehaviour
 
 
         }
-        if (GM.revSelectedTrue)
+        if (GM.isRevSelectedTrue)
         {
             LEFT = 2;
             RIGHT = 0;
@@ -62,7 +62,7 @@ public class BotManager : MonoBehaviour
             interval -= Time.deltaTime;
         }
         //**************************************************Turn   2***********************************
-        else if (GM.SendIndexToAlgorithms() == 0)
+        else if (GM.indexPawnPosition == 0)
         {
             {
                 r = Random.Range(0, 3);
@@ -83,7 +83,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 1)
+        else if (GM.indexPawnPosition == 1)
         {
             {
                 r = Random.Range(0, 2);
@@ -100,29 +100,9 @@ public class BotManager : MonoBehaviour
                 Confirming();
             }
         }
-        /* else if (GM.SendIndexToAlgorithms() == 2)   ///This is the extra not shown on the algorithm photo(bassically mirror of the first one)
-         {
-             {
-                 r = Random.Range(0,3);
-                 if (r == 0)
-                 {
-                     //old,new
-                     GM.MovePiece2(MID,TOP,RIGHT,MID,"B");
-                 }
-                 else if (r == 1)
-                 {
-                     GM.MovePiece2(MID,TOP,MID,MID,"B");
-                 }
-                 else
-                 {
-                     GM.MovePiece2(LEFT,TOP,LEFT,MID,"B");
-                 }
-                 Confirming();
 
-             }
-         }*/
         //**************************************************Turn   4***********************************
-        else if (GM.SendIndexToAlgorithms() == 2)
+        else if (GM.indexPawnPosition == 2)
         {
 
             {
@@ -152,7 +132,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 3)
+        else if (GM.indexPawnPosition == 3)
         {
 
             {
@@ -182,7 +162,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 4)
+        else if (GM.indexPawnPosition == 4)
         {
 
             {
@@ -207,7 +187,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 5)
+        else if (GM.indexPawnPosition == 5)
         {
 
             {
@@ -232,7 +212,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 6)
+        else if (GM.indexPawnPosition == 6)
         {
 
             {
@@ -257,7 +237,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 7)
+        else if (GM.indexPawnPosition == 7)
         {
 
             {
@@ -277,7 +257,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 8)
+        else if (GM.indexPawnPosition == 8)
         {
 
             {
@@ -298,7 +278,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 9)
+        else if (GM.indexPawnPosition == 9)
         {
 
             {
@@ -319,7 +299,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 10)
+        else if (GM.indexPawnPosition == 10)
         {
 
             {
@@ -339,7 +319,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 11)
+        else if (GM.indexPawnPosition == 11)
         {
 
             {
@@ -359,7 +339,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 12)
+        else if (GM.indexPawnPosition == 12)
         {
 
             {
@@ -371,7 +351,7 @@ public class BotManager : MonoBehaviour
             }
         }
         /////******************************Turn    6 *********************
-        else if (GM.SendIndexToAlgorithms() == 13)
+        else if (GM.indexPawnPosition == 13)
         {
 
             {
@@ -392,7 +372,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 14)
+        else if (GM.indexPawnPosition == 14)
         {
 
             {
@@ -404,7 +384,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 15)
+        else if (GM.indexPawnPosition == 15)
         {
 
             {
@@ -425,7 +405,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 16)
+        else if (GM.indexPawnPosition == 16)
         {
 
             {
@@ -446,7 +426,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 17)
+        else if (GM.indexPawnPosition == 17)
         {
 
             {
@@ -467,7 +447,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 18)
+        else if (GM.indexPawnPosition == 18)
         {
 
             {
@@ -488,7 +468,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 19)
+        else if (GM.indexPawnPosition == 19)
         {
 
             {
@@ -513,7 +493,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 20)
+        else if (GM.indexPawnPosition == 20)
         {
 
             {
@@ -533,7 +513,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 21)
+        else if (GM.indexPawnPosition == 21)
         {
 
             {
@@ -553,7 +533,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 22)
+        else if (GM.indexPawnPosition == 22)
         {
 
             {
@@ -573,7 +553,7 @@ public class BotManager : MonoBehaviour
 
             }
         }
-        else if (GM.SendIndexToAlgorithms() == 23)
+        else if (GM.indexPawnPosition == 23)
         {
 
             {
@@ -595,7 +575,8 @@ public class BotManager : MonoBehaviour
         }
         else
         {
-            noMoreBotMoves = true;
+          
+           GM.EndGame(true);
         }
 
 

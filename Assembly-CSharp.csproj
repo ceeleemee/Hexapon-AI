@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\GameManagerWithOutArray.cs" />
     <Compile Include="Assets\Scripts\InitiateManagers.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
+    <Compile Include="Assets\Scripts\WhitePawn.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>V:/android/0 Development/SelectingTilesandMoving/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

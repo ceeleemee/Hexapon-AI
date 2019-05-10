@@ -28,9 +28,9 @@ public class BlackPawn : MonoBehaviour
     }
     private void Update()
     {
-        //DetectPieceUp(upDirection);
-        //DetectKillPieceDiagonal(rightDiagonal);
-        //DetectKillPieceDiagonal(leftDiagonal);
+        //DetectPieceUpForWhite(upDirection);
+       // DetectKillPieceDiagonal(rightDiagonal);
+       // DetectKillPieceDiagonal(leftDiagonal);
 
 
        //     DetectPieceDown(downDirection);

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1593415378453260008}
   - component: {fileID: 5452946418034670622}
   - component: {fileID: -6888892557174099693}
+  - component: {fileID: -8033916678884452812}
   m_Layer: 9
   m_Name: White Pawn
   m_TagString: WhitePawn
@@ -109,3 +110,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-8033916678884452812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908078902200516055}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e982e010c9cba40a3de5ce722fb16c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pawn0: 0
+  pawn1: 0
+  pawn2: 0
