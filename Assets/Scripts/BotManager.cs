@@ -32,7 +32,7 @@ public class BotManager : MonoBehaviour
 
     private void Update()
     {
-        if (!GM.playerTurn)
+        if (!GM.isPlayerTurn)
         {
 
             AITurn();
@@ -48,8 +48,8 @@ public class BotManager : MonoBehaviour
         }
         else
         {
-            LEFT = 2;
-            RIGHT = 0;
+            LEFT = 0;
+            RIGHT = 2;
         }
 
     }
@@ -602,7 +602,7 @@ public class BotManager : MonoBehaviour
     }
     private void Confirming()
     {
-        GM.playerTurn = true;
+        GM.isPlayerTurn = true;
         interval = 3f;
     }
 }

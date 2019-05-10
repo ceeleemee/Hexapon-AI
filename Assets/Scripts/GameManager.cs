@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
     private List<string> collectListBoardDate;
     private string boardStringValue;
     private string revBoardStringValue;
-    private string firstThreeLetters="";
-    private string midThreeLetters="";
+    private string firstThreeLetters = "";
+    private string midThreeLetters = "";
     private string LastThreeLetters = "";
     private string[,] curBoardStringInfo;
     private string firstRevThreeLetters = "";
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private bool selectedPiece = false;
     private GameObject[,] pawnObj;
     private GameObject[,] boardObj;
-    public bool playerTurn = true;
+    public bool isPlayerTurn = true;
     public bool endGame = false;
     private int turnCount = 1;
     private GameObject findBMGameObject;
@@ -107,14 +107,20 @@ public class GameManager : MonoBehaviour
                     }
 
                 turnCount = 1;
-                playerTurn = true;
+                isPlayerTurn = true;
 
                 curPref = null;
                 newPref = null;
- 
+
                 BoardSetup();
                 GeneratePieces();
-                EndGame(true);
+                collectListBoardDate.Clear();
+                firstThreeLetters = "";
+                midThreeLetters = "";
+                LastThreeLetters = "";
+                firstRevThreeLetters = "";
+                midRevThreeLetters = "";
+                LastRevThreeLetters = "";
 
             }
 
@@ -128,7 +134,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if (playerTurn)
+        if (isPlayerTurn)
         {
 
 
@@ -155,13 +161,13 @@ public class GameManager : MonoBehaviour
             for (int x = 0; x < MAX; x++)
             {
                 //instance tile
-                boardObj[x,y] = Instantiate(tile, new Vector3(x * 10, y * 10, 1), Quaternion.identity);
+                boardObj[x, y] = Instantiate(tile, new Vector3(x * 10, y * 10, 1), Quaternion.identity);
                 boardObj[x, y].transform.SetParent(boardHolder);
                 //Debug.Log(instance.transform.position);
             }
         }
 
-       
+
 
     }
 
@@ -255,7 +261,7 @@ public class GameManager : MonoBehaviour
 
                             curPref.gameObject.GetComponent<MeshRenderer>().material.color = curColour;
                             selectedPiece = false;
-                            playerTurn = false;
+                            isPlayerTurn = false;
                         }
                         else
                         {
@@ -274,11 +280,11 @@ public class GameManager : MonoBehaviour
                             MovePiece2((int)curPref.transform.position.x / 10, (int)curPref.transform.position.y / 10, (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
                             curPref.gameObject.GetComponent<MeshRenderer>().material.color = curColour;
                             selectedPiece = false;
-                            playerTurn = false;
+                            isPlayerTurn = false;
                         }
                         else
                         {
-                                newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+                            newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
                         }
                     }
                 }
@@ -409,14 +415,16 @@ public class GameManager : MonoBehaviour
             pawnObj[x1, y1].gameObject.SetActive(false);
 
         }
-        else if (playerTurn && pawnObj[x1, y1].name == "Black Pawn(Clone)")
+        else if (isPlayerTurn && pawnObj[x1, y1].name == "Black Pawn(Clone)")
         {
             pawnObj[x1, y1].gameObject.SetActive(false);
         }
 
         curBoardStringInfo[x1, y1] = "E"; //save data
         curBoardStringInfo[x2, y2] = letter;//save data
-        UpdateBoardData();
+
+            UpdateBoardData();
+       
     }
 
 
@@ -424,7 +432,7 @@ public class GameManager : MonoBehaviour
     {
 
         collectListBoardDate.Clear();
-        firstThreeLetters="";
+        firstThreeLetters = "";
         midThreeLetters = "";
         LastThreeLetters = "";
         firstRevThreeLetters = "";
@@ -479,20 +487,23 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (isPlayerTurn)
+        {
 
 
-        revBoardStringValue = string.Join("",firstRevThreeLetters, midRevThreeLetters, LastRevThreeLetters);
+        revBoardStringValue = string.Join("", firstRevThreeLetters, midRevThreeLetters, LastRevThreeLetters);
         //List<> revCompareBoardtoalgo = firstRevThreeLetters.Concat(firstRevThreeLetters).Concat(midRevThreeLetters)
         // concat each string into one string
         boardStringValue = string.Concat(collectListBoardDate);
+        }
         print(string.Concat(boardStringValue));
 
         print("Turn: " + turnCount++);
 
 
-        EndGame(false);
+        EndGame();
     }
-    public bool EndGame(bool isRestartGame)
+    public bool EndGame()
     {
         //EEWWEBBEE // AI WINS
         //WEEBEWEEB// AI WINS
@@ -501,34 +512,39 @@ public class GameManager : MonoBehaviour
         //EEEEWEEBE   //PLAYER WINS
         //EEWEWBEBE //AI WINS
         //WEEBWEEBE //AI WINS
-        if (!boardStringValue.Contains("W") &&!isRestartGame)
+        if (!boardStringValue.Contains("W"))
         {
 
             print("AI wins No more W piece");
             return true;
         }
-        else if (!boardStringValue.Contains("B") && !isRestartGame)
+        else if (!boardStringValue.Contains("B"))
         {
             print("Player wins No more B piece");
             return true;
         }
-        else if (firstThreeLetters.Contains("B") && !isRestartGame)
+        else if (firstThreeLetters.Contains("B"))
         {
 
             print("AI wins crossed the finish line");
             return true;
         }
-        else if (LastThreeLetters.Contains("W") && !isRestartGame)
+        else if (LastThreeLetters.Contains("W"))
         {
             print("Player wins crossed the finish line");
             return true;
         }
-        else if (BM.noMoreBotMoves && !isRestartGame)
+        else if (BM.noMoreBotMoves || ((algList.IndexOf(boardStringValue) == algList.IndexOf(revBoardStringValue)) && isPlayerTurn))
         {
             print("Bot unable to move, player Wins!");
             return true;
         }
-        else 
+  /*      else if ((algList.IndexOf(boardStringValue) != algList.IndexOf(revBoardStringValue)) && isPlayerTurn)
+        {
+            print("Player unable to move, Bot Wins!");
+            return true;
+        }*/
+        else
         {
             return false;
         }
@@ -536,10 +552,11 @@ public class GameManager : MonoBehaviour
     public bool revSelectedTrue = false;
     public int SendIndexToAlgorithms()
     {
-        print(algList.IndexOf(boardStringValue));
-        print(algList.IndexOf(revBoardStringValue));
-        int idexList = algList.IndexOf(boardStringValue);
 
+        print("Index value for board value         " + algList.IndexOf(boardStringValue));
+        print("Index value when rev board value    " + algList.IndexOf(revBoardStringValue));
+        int idexList = algList.IndexOf(boardStringValue);
+        /*
         if((idexList ==7)|| (idexList == 9) || (idexList == 15) || (idexList == 16) || (idexList == 17) || (idexList == 18) || (idexList == 20) ||
             (idexList == 21) || (idexList == 22) || (idexList == 23) )
         {
@@ -547,12 +564,13 @@ public class GameManager : MonoBehaviour
             return algList.IndexOf(boardStringValue);
 
         }
-        else if (algList.IndexOf(boardStringValue) == -1)
+        else */
+        //  if (algList.IndexOf(boardStringValue) == -1)
         {
-            revSelectedTrue = true;
-            return algList.IndexOf(revBoardStringValue);
+            //       revSelectedTrue = true;
+            //        return algList.IndexOf(revBoardStringValue);
         }
-        else
+        //    else
         {
             revSelectedTrue = false;
             return algList.IndexOf(boardStringValue);

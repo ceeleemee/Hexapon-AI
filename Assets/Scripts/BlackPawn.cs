@@ -106,7 +106,7 @@ public class BlackPawn : MonoBehaviour
             Ray rayUp = new Ray(transform.position, rayDirection);
             if (Physics.Raycast(rayUp, out hit, RAYLENGTH))
             {
-            if (!GM.playerTurn)
+            if (!GM.isPlayerTurn)
             {
                 if (interval3 > 0)
                 {
@@ -120,7 +120,7 @@ public class BlackPawn : MonoBehaviour
                     {
                             Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, Color.green);
                             gameObject.transform.position = hit.transform.position;
-                        GM.playerTurn = true;
+                        GM.isPlayerTurn = true;
                         interval3 =3f;
                     }
                 }
