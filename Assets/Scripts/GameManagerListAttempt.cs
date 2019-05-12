@@ -428,7 +428,7 @@ public class GameManagerListAttempt : MonoBehaviour
             print("Player wins crossed the finish line");
             return true;
         }
-        else if (BM.noMoreBotMoves)
+        else if (BM.isAIcanMove)
         {
             print("Bot unable to move, player Wins!");
             return true;

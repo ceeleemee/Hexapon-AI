@@ -11,7 +11,7 @@ public class BotManager : MonoBehaviour
 
     private float interval = 3f;
 
-    private int r = 0;
+    private int random = 0;
 
 
     private readonly int BOT = 0;
@@ -19,7 +19,7 @@ public class BotManager : MonoBehaviour
     private readonly int TOP = 2;
     private int LEFT = 0;
     private int RIGHT = 2;
-    public bool noMoreBotMoves = false;
+    public bool isAIcanMove = true;
     private void Start()
     {
         findGMGameObject = GameObject.FindGameObjectWithTag("GM");
@@ -65,13 +65,14 @@ public class BotManager : MonoBehaviour
         else if (GM.indexPawnPosition == 0)
         {
             {
-                r = Random.Range(0, 3);
-                if (r == 0)
+               random = Random.Range(0, 3);
+                //random = 1;
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, LEFT, MID, "B");
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(MID, TOP, MID, MID, "B");
                 }
@@ -86,8 +87,8 @@ public class BotManager : MonoBehaviour
         else if (GM.indexPawnPosition == 1)
         {
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, TOP, LEFT, MID, "B");
@@ -106,19 +107,19 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 4);
-                if (r == 0)
+                random = Random.Range(0, 4);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, TOP, MID, MID, "B");
 
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
 
                 }
-                else if (r == 2)
+                else if (random == 2)
                 {
                     GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
 
@@ -136,19 +137,19 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 4);
-                if (r == 0)
+                random = Random.Range(0, 4);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, LEFT, MID, "B");
 
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
 
                 }
-                else if (r == 2)
+                else if (random == 2)
                 {
                     GM.MovePiece2(MID, MID, RIGHT, BOT, "B");
 
@@ -166,14 +167,14 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 3);
-                if (r == 0)
+                random = Random.Range(0, 3);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, TOP, MID, MID, "B");
 
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
 
@@ -191,14 +192,14 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 3);
-                if (r == 0)
+                random = Random.Range(0, 3);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, LEFT, MID, "B");
 
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(MID, TOP, MID, MID, "B");
 
@@ -216,14 +217,14 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 3);
-                if (r == 0)
+                random = Random.Range(0, 3);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
 
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(MID, MID, LEFT, BOT, "B");
 
@@ -241,8 +242,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
@@ -261,8 +262,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
@@ -282,8 +283,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, TOP, MID, MID, "B");
@@ -303,8 +304,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
@@ -323,8 +324,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
@@ -355,8 +356,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
@@ -388,8 +389,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
@@ -409,8 +410,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, LEFT, MID, "B");
@@ -430,8 +431,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
@@ -451,8 +452,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, MID, RIGHT, BOT, "B");
@@ -472,14 +473,14 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 3);
-                if (r == 0)
+                random = Random.Range(0, 3);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
 
                 }
-                else if (r == 1)
+                else if (random == 1)
                 {
                     GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
 
@@ -497,8 +498,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, LEFT, MID, "B");
@@ -517,8 +518,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
@@ -537,8 +538,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(LEFT, TOP, MID, MID, "B");
@@ -557,8 +558,8 @@ public class BotManager : MonoBehaviour
         {
 
             {
-                r = Random.Range(0, 2);
-                if (r == 0)
+                random = Random.Range(0, 2);
+                if (random == 0)
                 {
                     //old,new
                     GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
@@ -575,8 +576,8 @@ public class BotManager : MonoBehaviour
         }
         else
         {
-          
-           GM.EndGame(true);
+
+            isAIcanMove = false;
         }
 
 

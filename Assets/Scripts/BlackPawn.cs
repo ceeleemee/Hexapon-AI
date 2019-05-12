@@ -9,14 +9,15 @@ public class BlackPawn : MonoBehaviour
     private Vector3 upDirection;
     private Vector3 downDirection;
     private readonly float RAYLENGTH = 13f;
-    private readonly int IGNORERAY = 12;
-    private readonly int BLACKPIECE = 10;
+    private readonly int IGNORERAYMASK = 12;
+    private readonly int BLACKPIECEMASK = 10;
     private float interval = 1f;
     private int storeTempLayer;
 
     private GameObject findGMGameObject;
     private GameManager GM;
     private float interval3 = 3f;
+    private bool isDiagnoal = false;
     private void Start()
     {
         findGMGameObject = GameObject.FindGameObjectWithTag("GM");
@@ -152,7 +153,7 @@ public class BlackPawn : MonoBehaviour
                 {
                     
                     Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, Color.red);
-                    hit.collider.gameObject.layer = IGNORERAY;///////////make sure to reset properties when it is AI turn
+                    hit.collider.gameObject.layer = IGNORERAYMASK;///////////make sure to reset properties when it is AI turn
                     
                 }
 
@@ -166,7 +167,7 @@ public class BlackPawn : MonoBehaviour
     private bool DetectKillPieceDiagonalForWhite(Vector3 rayDirection)
     {
         RaycastHit hit;
-        bool isDiagnoal = false;
+        
 
         if (gameObject.GetComponent<MeshRenderer>().material.color == Color.yellow)
         {
@@ -178,7 +179,7 @@ public class BlackPawn : MonoBehaviour
                 {
                     Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, Color.green);
                     isDiagnoal = true;
-                    hit.collider.gameObject.layer = BLACKPIECE;
+                    hit.collider.gameObject.layer = BLACKPIECEMASK;
                 }
                
             }
