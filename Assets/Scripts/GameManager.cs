@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
     private int turnCount = 1;
     private GameObject findBMGameObject;
     private BotManager BM;
-    private GameObject findWPGameObject;
+
     private WhitePawn[] WP;
-    private bool isEndTriggered = false;
+    private bool isEndGameTriggered = false;
 
 
     //Note alogithm 21 and 15 never happens because , algorithm 1 is always symmeterically about the middle coloumn.
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     private void LateUpdate()
     {
         
-        //if (isEndTriggered) // if win/lose pop up appears, stop this loop
+        if (!isEndGameTriggered) // if win/lose pop up appears, stop this loop
         {
             EndGame();
 
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
                 GeneratePieces();
                 UpdateBoardData();
                 PlayerCanPlay();
-                isEndTriggered = false;
+                isEndGameTriggered = false;
                 BM.isAIcanMove = true;
 
             }
@@ -563,12 +563,12 @@ public class GameManager : MonoBehaviour
         {
 
             print("AI wins No more W piece");
-
+            isEndGameTriggered = true;
         }
         else if (!allPawnPositionsIntoLongString.Contains("B"))
         {
             print("Player wins No more B piece");
-
+            isEndGameTriggered = true;
 
         }
         else if (firstThreeLetters.Contains("B"))
@@ -576,18 +576,18 @@ public class GameManager : MonoBehaviour
 
             print("AI wins crossed the finish line");
 
-
+            isEndGameTriggered = true;
         }
         else if (LastThreeLetters.Contains("W"))
         {
             print("Player wins crossed the finish line");
-
+            isEndGameTriggered = true;
 
         }
         else if (!BM.isAIcanMove)
         {
             print("Bot unable to move, player Wins!");
-
+            isEndGameTriggered = true;
 
         }
 
@@ -595,7 +595,7 @@ public class GameManager : MonoBehaviour
         {
 
             print("plyer cant move, bot wins");
-
+            isEndGameTriggered = true;
         }
         /*      else if ((algList.IndexOf(boardStringValue) != algList.IndexOf(revBoardStringValue)) && isPlayerTurn)
               {
