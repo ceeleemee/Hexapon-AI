@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
               "EEEBWEBEE",
           };*/
 
-    public bool isRevSelectedTrue = false;
+    public bool isRevStringSelected = false;
     private Vector3 target;
     // Start is called before the first frame update
     void Start()
@@ -478,15 +478,25 @@ public class GameManager : MonoBehaviour
         int temp = algList.IndexOf(allPawnPositionsIntoLongString);
         int temp2 = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
 
-        if (temp == -1 || temp2 == 7 || temp2 == 18 || temp2 == 23)
+        if (temp == -1 || temp2 == 7 || temp2 == 18 || temp2 == 23 || temp2 == 15 || temp2 == 21)
         {
             indexPawnPosition = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
-            isRevSelectedTrue = true;
+            isRevStringSelected = true;
+        }
+        else if (temp ==1)
+        {
+            int random = Random.Range(0, 2);
+            print(random + "random");
+            if (random ==0)
+                isRevStringSelected = true;
+            else
+                isRevStringSelected = false;
+            indexPawnPosition = algList.IndexOf(allPawnPositionsIntoLongString);
         }
         else
         {
             indexPawnPosition = algList.IndexOf(allPawnPositionsIntoLongString);
-            isRevSelectedTrue = false;
+            isRevStringSelected = false;
         }
 
 

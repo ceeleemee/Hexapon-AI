@@ -41,15 +41,17 @@ public class BotManager : MonoBehaviour
 
 
         }
-        if (GM.isRevSelectedTrue)
+        if (GM.isRevStringSelected)
         {
             LEFT = 2;
             RIGHT = 0;
+
         }
         else
         {
             LEFT = 0;
             RIGHT = 2;
+
         }
 
     }
