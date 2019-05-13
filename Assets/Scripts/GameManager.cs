@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void CreateEverything()
     {
-        Instantiate(startButtonGo, new Vector3(30, 20, 1), Quaternion.identity);
+        Instantiate(startButtonGo, new Vector3(0, 30, 1), Quaternion.identity);
         BoardSetup();
         GeneratePieces();
     }
