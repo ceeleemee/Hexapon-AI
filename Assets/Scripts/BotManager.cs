@@ -72,15 +72,15 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, LEFT, MID, "B");
+                    GM.MovePiece(MID, TOP, LEFT, MID, "B");
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(MID, TOP, MID, MID, "B");
+                    GM.MovePiece(MID, TOP, MID, MID, "B");
                 }
                 else
                 {
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
@@ -93,12 +93,12 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, TOP, LEFT, MID, "B");
+                    GM.MovePiece(LEFT, TOP, LEFT, MID, "B");
                 }
                 else
                 {
 
-                    GM.MovePiece2(LEFT, TOP, MID, MID, "B");
+                    GM.MovePiece(LEFT, TOP, MID, MID, "B");
                 }
                 Confirming();
             }
@@ -113,23 +113,23 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, TOP, MID, MID, "B");
+                    GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
                 else if (random == 2)
                 {
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
@@ -143,23 +143,23 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, LEFT, MID, "B");
+                    GM.MovePiece(MID, TOP, LEFT, MID, "B");
 
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
 
                 }
                 else if (random == 2)
                 {
-                    GM.MovePiece2(MID, MID, RIGHT, BOT, "B");
+                    GM.MovePiece(MID, MID, RIGHT, BOT, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(MID, MID, RIGHT, BOT, "B");
+                    GM.MovePiece(MID, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
 
@@ -173,18 +173,18 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, TOP, MID, MID, "B");
+                    GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
@@ -198,18 +198,18 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, LEFT, MID, "B");
+                    GM.MovePiece(MID, TOP, LEFT, MID, "B");
 
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(MID, TOP, MID, MID, "B");
+                    GM.MovePiece(MID, TOP, MID, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(MID, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
@@ -223,18 +223,18 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(MID, TOP, RIGHT, MID, "B");
 
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(MID, MID, LEFT, BOT, "B");
+                    GM.MovePiece(MID, MID, LEFT, BOT, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(MID, MID, MID, BOT, "B");
+                    GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
 
@@ -248,13 +248,13 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(MID, TOP, RIGHT, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
                 }
                 Confirming();
 
@@ -268,14 +268,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(LEFT, MID, MID, BOT, "B");
+                    GM.MovePiece(LEFT, MID, MID, BOT, "B");
                 }
                 Confirming();
 
@@ -289,14 +289,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, TOP, MID, MID, "B");
+                    GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(MID, TOP, LEFT, MID, "B");
+                    GM.MovePiece(MID, TOP, LEFT, MID, "B");
                 }
                 Confirming();
 
@@ -310,13 +310,13 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
@@ -330,13 +330,13 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
@@ -347,7 +347,7 @@ public class BotManager : MonoBehaviour
 
             {
 
-                GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
 
                 Confirming();
 
@@ -362,14 +362,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(MID, MID, MID, BOT, "B");
+                    GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
 
@@ -381,7 +381,7 @@ public class BotManager : MonoBehaviour
             {
 
                 //old,new
-                GM.MovePiece2(LEFT, TOP, MID, MID, "B");
+                GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 Confirming();
 
@@ -395,14 +395,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(MID, TOP, RIGHT, MID, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
                 }
                 Confirming();
 
@@ -416,14 +416,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, LEFT, MID, "B");
+                    GM.MovePiece(MID, TOP, LEFT, MID, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, MID, RIGHT, BOT, "B");
+                    GM.MovePiece(RIGHT, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
 
@@ -437,14 +437,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(MID, MID, MID, BOT, "B");
+                    GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
 
@@ -458,14 +458,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, MID, RIGHT, BOT, "B");
+                    GM.MovePiece(MID, MID, RIGHT, BOT, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, MID, RIGHT, BOT, "B");
+                    GM.MovePiece(RIGHT, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
 
@@ -479,18 +479,18 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
                 else if (random == 1)
                 {
-                    GM.MovePiece2(RIGHT, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
                 }
                 Confirming();
 
@@ -504,13 +504,13 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, LEFT, MID, "B");
+                    GM.MovePiece(MID, TOP, LEFT, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(MID, MID, MID, BOT, "B");
+                    GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
 
@@ -524,13 +524,13 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(MID, TOP, RIGHT, MID, "B");
+                    GM.MovePiece(MID, TOP, RIGHT, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(MID, MID, MID, BOT, "B");
+                    GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
 
@@ -544,13 +544,13 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(LEFT, TOP, MID, MID, "B");
+                    GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 }
                 else
                 {
 
-                    GM.MovePiece2(LEFT, MID, LEFT, BOT, "B");
+                    GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
                 }
                 Confirming();
 
@@ -564,14 +564,14 @@ public class BotManager : MonoBehaviour
                 if (random == 0)
                 {
                     //old,new
-                    GM.MovePiece2(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
 
                 else
                 {
 
-                    GM.MovePiece2(RIGHT, MID, RIGHT, BOT, "B");
+                    GM.MovePiece(RIGHT, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
             }

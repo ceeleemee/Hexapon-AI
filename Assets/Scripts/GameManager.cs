@@ -42,7 +42,14 @@ public class GameManager : MonoBehaviour
 
     private WhitePawn[] WP;
     private bool isEndGameTriggered = false;
-
+    public bool isRevStringSelected = false;
+    private Vector3 target;
+    private LayerMask MaskStartPiece;
+    private LayerMask MaskWhitePiece;
+    private LayerMask MaskBlackPiece;
+    private LayerMask MaskEmptyPiece;
+    private LayerMask MaskTilePiece;
+    private readonly float rayLength = 100f;
 
     //Note alogithm 21 and 15 never happens because , algorithm 1 is always symmeterically about the middle coloumn.
     // AI always moves the left piece .
@@ -61,90 +68,48 @@ public class GameManager : MonoBehaviour
             "EEEWWBEBE","EEEBBWBEE","EEEWBBEEB","EEEBWEEEB",
             "EEEWBEEBE","EEEEBWEBE","EEEBWEBEE","EEEEWBEEB",
         };
-    /*  private static readonly List<string> algList = new List<string>()
-          {
-              //TURN 2
-              "EWWWEEBBB","WEWEWEBBB",
-              //TURN 4
-              "EEWBWEBEB","EEWWBEEBB",
-              "EWEWWEBEB","EEWWEWBBE",
-              "WEEEBWEBB","WEEBWWEBB",
-              "EWEBEWBEB","EEWWWBBBE",
 
-              "EEWEWEEBB","WEEEWEEBB",
-              "EEWWEEBEB",
-              //TURN6
-              "EEEBBWEEB","EEEWWWBEE",
-              "EEEBWWEBE","EEEWWBEBE",
-              "EEEWBBEEB","EEEBBWBEE",
-              "EEEBWEEEB","EEEWBEEBE",
-              "EEEEBWEBE","EEEEWBEEB",
-              "EEEBWEBEE",
-          };*/
 
-    public bool isRevStringSelected = false;
-    private Vector3 target;
     // Start is called before the first frame update
     void Start()
     {
-
-
+        MaskStartPiece = LayerMask.GetMask("StartNewGame");
+        MaskWhitePiece = LayerMask.GetMask("WhitePiece");
+        MaskBlackPiece = LayerMask.GetMask("BlackPiece");
+        MaskEmptyPiece = LayerMask.GetMask("EmptyPiece");
+        MaskTilePiece = LayerMask.GetMask("Tile");
         oldPref = GetComponent<GameObject>();// rbPref = Rigidbody; is it different?
         collectPawnStringCodeList = new List<string>();
-
         oldPawnPositionArray = new string[MAX, MAX];
-
         curRevBoardStringInfo = new string[MAX, MAX];
+        pawnObjArray = new GameObject[MAX, MAX];
         allPawnPositionsIntoLongString = "";
         mirrorAllPawnPositionIntoLongString = "";
-        pawnObjArray = new GameObject[MAX, MAX];
-
         boardObjArray = new GameObject[MAX, MAX];
         boardHolder = new GameObject("Board").transform;
         pieceHolder = new GameObject("Piece").transform;
-
-
         findBMGameObject = GameObject.FindGameObjectWithTag("BM");
         BM = findBMGameObject.GetComponent<BotManager>();
         WP = new WhitePawn[MAX];
+
+
         CreateEverything();
-
-        foreach (GameObject stuff in pawnObjArray)
-        {
-
-            //    print(stuff+"\n");
-            //    print(stuff.transform.position + "\n");
-        }
-
-
 
     }
     void Update()
     {
-
         if (isPlayerTurn)
-        {
-
-
             SelectPieceAndSaveData();
-            //print(SendIndexToAlgorithms());
 
-        }
         RestartGame();
-
     }
     private void LateUpdate()
     {
-        
         if (!isEndGameTriggered) // if win/lose pop up appears, stop this loop
-        {
             EndGame();
-
-        }
     }
     void RestartGame()
     {
-        LayerMask MaskStartPiece = LayerMask.GetMask("StartNewGame");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//mouse shoots an array
         float rayLength = 100f;
         RaycastHit hit;
@@ -160,17 +125,14 @@ public class GameManager : MonoBehaviour
                         Destroy(pawnObjArray[x, y]);
                         Destroy(boardObjArray[x, y]);
                     }
-
                 turnCount = 1;
                 isPlayerTurn = true;
-
                 oldPref = null;
                 newPref = null;
-
                 BoardSetup();
                 GeneratePieces();
                 UpdateBoardData();
-                PlayerCanPlay();
+                IsPlayerCanMove();
                 isEndGameTriggered = false;
                 BM.isAIcanMove = true;
 
@@ -192,20 +154,18 @@ public class GameManager : MonoBehaviour
 
     private void BoardSetup()
     {
-
         for (int y = 0; y < MAX; y++)
         {
             for (int x = 0; x < MAX; x++)
             {
                 //instance tile
                 boardObjArray[x, y] = Instantiate(tileGo, new Vector3(x * 10, y * 10, 1), Quaternion.identity);
+                //boardObjArray[x, y].transform.localScale = new Vector3(,0,0);
+
                 boardObjArray[x, y].transform.SetParent(boardHolder);
                 //Debug.Log(instance.transform.position);
             }
         }
-
-
-
     }
 
 
@@ -221,33 +181,23 @@ public class GameManager : MonoBehaviour
                 if (y == 0)
                 {
                     pawnObjArray[x, y] = GameObject.Instantiate(whitePawnGO, new Vector3(x * 10, y * 10, 0), Quaternion.Euler(90, 0, 0));
-
-
                     oldPawnPositionArray[x, y] = "W";
-
                     WP[x] = pawnObjArray[x, y].GetComponent<WhitePawn>();
-
                 }
                 else if (y == 1)
                 {
                     pawnObjArray[x, y] = GameObject.Instantiate(emptyPawnGo, new Vector3(x * 10, y * 10, 0), Quaternion.Euler(90, 0, 0));
                     oldPawnPositionArray[x, y] = "E";
-
                 }
                 else
                 {
                     pawnObjArray[x, y] = GameObject.Instantiate(blackPawnGo, new Vector3(x * 10, y * 10, 0), Quaternion.Euler(90, 0, 0));
-
                     oldPawnPositionArray[x, y] = "B";
-
                 }
-
                 collectPawnStringCodeList.Add(oldPawnPositionArray[x, y]);
                 //so there is codevalue as soon as object is instantiated
                 pawnObjArray[x, y].transform.SetParent(pieceHolder);
                 allPawnPositionsIntoLongString = string.Concat(collectPawnStringCodeList);
-
-
             }
         }
 
@@ -255,14 +205,8 @@ public class GameManager : MonoBehaviour
     }
     private void SelectPieceAndSaveData()
     {
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//mouse shoots an array
-        float rayLength = 100f;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//mouse shoots an array       
         RaycastHit hit;
-        LayerMask MaskWhitePiece = LayerMask.GetMask("WhitePiece");
-        LayerMask MaskBlackPiece = LayerMask.GetMask("BlackPiece");
-        LayerMask MaskEmptyPiece = LayerMask.GetMask("EmptyPiece");
-        LayerMask MaskTilePiece = LayerMask.GetMask("Tile");
 
         //this clicks on mouse
         if (Input.GetMouseButtonDown(0))
@@ -279,8 +223,11 @@ public class GameManager : MonoBehaviour
                     for (int x = 0; x < MAX; x++)
                     {
                         if (pawnObjArray[x, y].transform.gameObject.tag == "WhitePawn")
-
                             pawnObjArray[x, y].GetComponent<MeshRenderer>().material.color = defaultColour;
+                        else
+                        {
+                            pawnObjArray[x, y].GetComponent<MeshRenderer>().material.color = defaultColour;
+                        }
                     }
                 }
 
@@ -304,7 +251,7 @@ public class GameManager : MonoBehaviour
                         //Mathf.Abs(newPref.position.x - curPref.transform.position.x) <= 10 && (newPref.position.y - curPref.transform.position.y)<=10||(newPref.position.y != curPref.transform.position.y) &&(newPref.position.x != curPref.transform.position.x)
                         if (Mathf.Abs(newPref.transform.position.x - oldPref.transform.position.x) == 10 && (newPref.transform.position.y - oldPref.transform.position.y) == 10)
                         {
-                            MovePiece2((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10, (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
+                            MovePiece((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10, (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
 
 
                             oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
@@ -325,7 +272,7 @@ public class GameManager : MonoBehaviour
                         //control distance between selected pref and other objects
                         if ((newPref.transform.position.y - oldPref.transform.position.y) == 10 && Mathf.Abs(newPref.transform.position.x - oldPref.transform.position.x) == 0)
                         {
-                            MovePiece2((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10, (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
+                            MovePiece((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10, (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
                             oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
                             selectedPiece = false;
                             isPlayerTurn = false;
@@ -365,7 +312,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void MovePiece2(int x1, int y1, int x2, int y2, string letter)
+    public void MovePiece(int x1, int y1, int x2, int y2, string letter)
     {
         //print(pawnObj[x1, y1] + "\n");
         //print(pawnObj[x1, y1].transform.position + "\n");
@@ -394,11 +341,8 @@ public class GameManager : MonoBehaviour
         {
             pawnObjArray[x1, y1].gameObject.SetActive(false);
         }
-
-
         oldPawnPositionArray[x1, y1] = "E"; //save data
         oldPawnPositionArray[x2, y2] = letter;//save data
-
         UpdateBoardData();
         print("Turn: " + turnCount++);
 
@@ -423,21 +367,12 @@ public class GameManager : MonoBehaviour
             {
                 collectPawnStringCodeList.Add(oldPawnPositionArray[x, y]);
                 if (y == 0)
-                {
                     firstThreeLetters += oldPawnPositionArray[x, y];
-                }
                 else if (y == 1)
-                {
-
                     midThreeLetters += oldPawnPositionArray[x, y];
-
-                }
                 else
-                {
-
                     LastThreeLetters += oldPawnPositionArray[x, y];
 
-                }
             }
         }
 
@@ -448,19 +383,11 @@ public class GameManager : MonoBehaviour
             for (int x = MAX - 1; x >= 0; x--)
             {
                 if (y == 0)
-                {
                     firstRevThreeLetters += oldPawnPositionArray[x, y];
-                }
                 else if (y == 1)
-                {
-
                     midRevThreeLetters += oldPawnPositionArray[x, y];
-                }
                 else
-                {
-
                     LastRevThreeLetters += oldPawnPositionArray[x, y];
-                }
             }
         }
 
@@ -483,11 +410,11 @@ public class GameManager : MonoBehaviour
             indexPawnPosition = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
             isRevStringSelected = true;
         }
-        else if (temp ==1)
+        else if (temp == 1)
         {
             int random = Random.Range(0, 2);
             print(random + "random");
-            if (random ==0)
+            if (random == 0)
                 isRevStringSelected = true;
             else
                 isRevStringSelected = false;
@@ -504,7 +431,7 @@ public class GameManager : MonoBehaviour
 
 
     }
-    private bool PlayerCanPlay()
+    private bool IsPlayerCanMove()
     {
 
         int countNumberOfPiece = 0;
@@ -512,7 +439,7 @@ public class GameManager : MonoBehaviour
         int countNumberConfirmPieces2 = 0;
         int countNumberConfirmPieces3 = 0;
         int countNumberConfirmPiecesSum = 0;
-        bool canPlay=true;
+        bool isCanPlay = true;
         foreach (string stuff in collectPawnStringCodeList)
         {
             if (stuff == "W")
@@ -548,15 +475,15 @@ public class GameManager : MonoBehaviour
 
         if (countNumberOfPiece == countNumberConfirmPiecesSum) // && if white pawn Cannot move
         {
-         //   print("plyer cant move, bot wins123");
-            canPlay = false;
+            //   print("plyer cant move, bot wins123");
+            isCanPlay = false;
         }
         else
         {
-            canPlay =  true;
+            isCanPlay = true;
         }
         //print("white pieces " + countNumberOfPiece + ", Can't move white pieces " + countNumberConfirmPiecesSum);
-        return canPlay;
+        return isCanPlay;
 
     }
     public void EndGame()
@@ -571,7 +498,6 @@ public class GameManager : MonoBehaviour
 
         if (!allPawnPositionsIntoLongString.Contains("W"))
         {
-
             print("AI wins No more W piece");
             isEndGameTriggered = true;
         }
@@ -579,39 +505,27 @@ public class GameManager : MonoBehaviour
         {
             print("Player wins No more B piece");
             isEndGameTriggered = true;
-
         }
         else if (firstThreeLetters.Contains("B"))
         {
-
             print("AI wins crossed the finish line");
-
             isEndGameTriggered = true;
         }
         else if (LastThreeLetters.Contains("W"))
         {
             print("Player wins crossed the finish line");
             isEndGameTriggered = true;
-
         }
         else if (!BM.isAIcanMove)
         {
             print("Bot unable to move, player Wins!");
             isEndGameTriggered = true;
-
         }
 
-        if (!PlayerCanPlay() && isPlayerTurn)
+        if (!IsPlayerCanMove() && isPlayerTurn)
         {
-
             print("plyer cant move, bot wins");
             isEndGameTriggered = true;
         }
-        /*      else if ((algList.IndexOf(boardStringValue) != algList.IndexOf(revBoardStringValue)) && isPlayerTurn)
-              {
-                  print("Player unable to move, Bot Wins!");
-                  return true;
-              }*/
-
     }
 }
