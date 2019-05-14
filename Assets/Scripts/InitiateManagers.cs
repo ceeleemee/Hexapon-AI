@@ -1,27 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InitiateManagers : MonoBehaviour
 {
 
-    public GameObject GM;
-    public GameObject BM;
+    public GameObject gameManger;
+    public GameObject botManager;
+    public GameObject endGameManager;
     // Start is called before the first frame update
 
     void Awake()
-    {
+    {  //Instantiate gameManager prefab
         if (GameManager.instance == null)
-
-            //Instantiate gameManager prefab
-         Instantiate(GM);
-
-
-        //Check if a SoundManager has already been assigned to static variable GameManager.instance or if it's still null
-           if (BotManager.instance == null)
-
+            Instantiate(gameManger);
         //Instantiate SoundManager prefab
-           Instantiate(BM);
+        if (BotManager.instance == null)
+            Instantiate(botManager);
+        if (EndGameManager.instance == null)
+            Instantiate(endGameManager);
 
     }
 

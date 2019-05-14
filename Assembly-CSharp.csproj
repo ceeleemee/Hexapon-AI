@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\BlackPawn.cs" />
     <Compile Include="Assets\Scripts\BotManager.cs" />
     <Compile Include="Assets\Scripts\EmptyPawnCollision.cs" />
+    <Compile Include="Assets\Scripts\EndGameManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameManagerListAttempt.cs" />
     <Compile Include="Assets\Scripts\GameManagerWithOutArray.cs" />

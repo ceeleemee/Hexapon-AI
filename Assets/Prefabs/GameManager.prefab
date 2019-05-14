@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileGo: {fileID: 1057987197705154843, guid: 5b003441baa68d9449bc8ece2b593549, type: 3}
+  tileGo1: {fileID: 1057987197705154843, guid: c800c7372f8f5cb4284b839e29d6fd08, type: 3}
   blackPawnGo: {fileID: 5687147776274526644, guid: 303af617498c3e7439b75e4b829cfcae,
     type: 3}
   whitePawnGO: {fileID: 908078902200516055, guid: b4618d65fd663de47bc0fe59f28f09c5,
@@ -72,4 +73,4 @@ MonoBehaviour:
   indexPawnPosition: 0
   isPlayerTurn: 1
   isEndGame: 0
-  isRevSelectedTrue: 0
+  isRevStringSelected: 0

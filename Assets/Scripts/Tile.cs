@@ -9,11 +9,13 @@ public class Tile : MonoBehaviour
     private float interval = 1f;
     private GameObject findGMGameObject;
     private GameManager GM;
+    private Color defColor;
 
     private void Start()
     {
         findGMGameObject = GameObject.FindGameObjectWithTag("GM");
         GM = findGMGameObject.GetComponent<GameManager>();
+        defColor = GetComponent<MeshRenderer>().material.color;
     }
 
     private void OnTriggerStay(Collider other)
@@ -47,7 +49,7 @@ public class Tile : MonoBehaviour
         }
         else 
         {
-            gameObject.GetComponent<MeshRenderer>().material.color = blueColour;
+            gameObject.GetComponent<MeshRenderer>().material.color = defColor;
             interval = 3f;
         }
 

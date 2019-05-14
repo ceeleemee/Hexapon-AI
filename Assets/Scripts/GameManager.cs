@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     //Use find GameObject.FindGameObjectWithTag("tag"); and then use gameobject.GetComponent<GameManager>();
     public static GameManager instance = null;
     public GameObject tileGo;
+    public GameObject tileGo1;
     public GameObject blackPawnGo;
     public GameObject whitePawnGO;
     public GameObject emptyPawnGo;
@@ -16,16 +17,16 @@ public class GameManager : MonoBehaviour
     private Transform pieceHolder;
     private Transform emptyHolder;
     private List<string> collectPawnStringCodeList;
-    private string allPawnPositionsIntoLongString;
+    public string allPawnPositionsIntoLongString;
     public int indexPawnPosition = 0;
-    private string mirrorAllPawnPositionIntoLongString;
-    private string firstThreeLetters = "";
+    public string mirrorAllPawnPositionIntoLongString;
+    public string firstThreeLetters = "";
     private string midThreeLetters = "";
-    private string LastThreeLetters = "";
+    public string LastThreeLetters = "";
     private string[,] oldPawnPositionArray;
-    private string firstRevThreeLetters = "";
-    private string midRevThreeLetters = "";
-    private string LastRevThreeLetters = "";
+    public string firstRevThreeLetters = "";
+    public string midRevThreeLetters = "";
+    public string LastRevThreeLetters = "";
     private string[,] curRevBoardStringInfo;
     private GameObject oldPref;
     private GameObject newPref;
@@ -39,9 +40,10 @@ public class GameManager : MonoBehaviour
     private int turnCount = 1;
     private GameObject findBMGameObject;
     private BotManager BM;
-
+    private GameObject findEGMGameObject;
+    private EndGameManager EGM;
     private WhitePawn[] WP;
-    private bool isEndGameTriggered = false;
+
     public bool isRevStringSelected = false;
     private Vector3 target;
     private LayerMask MaskStartPiece;
@@ -90,6 +92,8 @@ public class GameManager : MonoBehaviour
         pieceHolder = new GameObject("Piece").transform;
         findBMGameObject = GameObject.FindGameObjectWithTag("BM");
         BM = findBMGameObject.GetComponent<BotManager>();
+        findEGMGameObject = GameObject.FindGameObjectWithTag("EGM");
+        EGM = findEGMGameObject.GetComponent<EndGameManager>();
         WP = new WhitePawn[MAX];
 
 
@@ -102,12 +106,13 @@ public class GameManager : MonoBehaviour
             SelectPieceAndSaveData();
 
         RestartGame();
+        /*
+        if (!isEndGameTriggered)
+        {
+            Ending();
+        }*/
     }
-    private void LateUpdate()
-    {
-        if (!isEndGameTriggered) // if win/lose pop up appears, stop this loop
-            EndGame();
-    }
+
     void RestartGame()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//mouse shoots an array
@@ -133,7 +138,7 @@ public class GameManager : MonoBehaviour
                 GeneratePieces();
                 UpdateBoardData();
                 IsPlayerCanMove();
-                isEndGameTriggered = false;
+                EGM.isEndGameTriggered = false;
                 BM.isAIcanMove = true;
 
             }
@@ -154,16 +159,18 @@ public class GameManager : MonoBehaviour
 
     private void BoardSetup()
     {
+        int count = 1;
         for (int y = 0; y < MAX; y++)
         {
             for (int x = 0; x < MAX; x++)
             {
                 //instance tile
-                boardObjArray[x, y] = Instantiate(tileGo, new Vector3(x * 10, y * 10, 1), Quaternion.identity);
+                boardObjArray[x, y] = Instantiate(count%2 == 0 ? tileGo : tileGo1, new Vector3(x * 10, y * 10, 1), Quaternion.identity);
                 //boardObjArray[x, y].transform.localScale = new Vector3(,0,0);
 
                 boardObjArray[x, y].transform.SetParent(boardHolder);
                 //Debug.Log(instance.transform.position);
+                count++;
             }
         }
     }
@@ -211,10 +218,7 @@ public class GameManager : MonoBehaviour
         //this clicks on mouse
         if (Input.GetMouseButtonDown(0))
         {
-            // if (Physics.Raycast(ray, out hit, rayLength)){
-            //     print(hit.transform.position);
-            //  }
-            //Select whitepiece and highlight it with yellow
+
             if (Physics.Raycast(ray, out hit, rayLength, MaskWhitePiece))
             {
                 //refresh colour for whites but not selection.
@@ -431,7 +435,7 @@ public class GameManager : MonoBehaviour
 
 
     }
-    private bool IsPlayerCanMove()
+    public bool IsPlayerCanMove()
     {
 
         int countNumberOfPiece = 0;
@@ -486,7 +490,7 @@ public class GameManager : MonoBehaviour
         return isCanPlay;
 
     }
-    public void EndGame()
+   /* public void EndGame()
     {
         //EEWWEBBEE // AI WINS
         //WEEBEWEEB// AI WINS
@@ -527,5 +531,5 @@ public class GameManager : MonoBehaviour
             print("plyer cant move, bot wins");
             isEndGameTriggered = true;
         }
-    }
+    }*/
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BotManager : MonoBehaviour
 {
@@ -20,13 +21,39 @@ public class BotManager : MonoBehaviour
     private int LEFT = 0;
     private int RIGHT = 2;
     public bool isAIcanMove = true;
+
+    private List<int> algList0 = new List<int>() { 0, 1, 2 };
+    private List<int> algList1 = new List<int>() { 0, 1, };
+    private List<int> algList2 = new List<int>() { 0, 1, 2, 3 };
+    private List<int> algList3 = new List<int>() { 0, 1, 2, 3 };
+    private List<int> algList4 = new List<int>() { 0, 1, 2, };
+    private List<int> algList5 = new List<int>() { 0, 1, 2, };
+    private List<int> algList6 = new List<int>() { 0, 1, 2, };
+    private List<int> algList7 = new List<int>() { 0, 1, };
+    private List<int> algList8 = new List<int>() { 0, 1, };
+    private List<int> algList9 = new List<int>() { 0, 1, };
+    private List<int> algList10 = new List<int>() { 0, 1, };
+    private List<int> algList11 = new List<int>() { 0, 1, };
+    private List<int> algList12 = new List<int>() { 0, };
+    private List<int> algList13 = new List<int>() { 0, 1, };
+    private List<int> algList14 = new List<int>() { 0, };
+    private List<int> algList15 = new List<int>() { 0, 1 };
+    private List<int> algList16 = new List<int>() { 0, 1, };
+    private List<int> algList17 = new List<int>() { 0, 1, };
+    private List<int> algList18 = new List<int>() { 0, 1, };
+    private List<int> algList19 = new List<int>() { 0, 1, 2, };
+    private List<int> algList20 = new List<int>() { 0, 1, };
+    private List<int> algList21 = new List<int>() { 0, 1, };
+    private List<int> algList22 = new List<int>() { 0, 1, };
+    private List<int> algList23 = new List<int>() { 0, 1, };
+
     private void Start()
     {
         findGMGameObject = GameObject.FindGameObjectWithTag("GM");
         GM = findGMGameObject.GetComponent<GameManager>();
 
 
-
+        print(algList0.Count);
 
     }
 
@@ -67,18 +94,19 @@ public class BotManager : MonoBehaviour
         else if (GM.indexPawnPosition == 0)
         {
             {
-               random = Random.Range(0, 3);
+                int MAX = algList0.Count;   
+                random = Random.Range(0, MAX);
                 //random = 1;
-                if (random == 0)
+                if (algList0[random] == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
                 }
-                else if (random == 1)
+                else if (algList0[random] == 1)
                 {
                     GM.MovePiece(MID, TOP, MID, MID, "B");
                 }
-                else
+                else if(algList0[random] ==2)
                 {
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
@@ -578,7 +606,6 @@ public class BotManager : MonoBehaviour
         }
         else
         {
-
             isAIcanMove = false;
         }
 
