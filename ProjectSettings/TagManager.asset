@@ -12,6 +12,7 @@ TagManager:
   - StartNewGame
   - Tile
   - TriggerTile
+  - EGM
   layers:
   - Default
   - TransparentFX

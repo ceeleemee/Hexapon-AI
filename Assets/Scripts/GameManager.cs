@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
         EGM = findEGMGameObject.GetComponent<EndGameManager>();
         WP = new WhitePawn[MAX];
 
+       
 
         CreateEverything();
 
@@ -134,12 +135,17 @@ public class GameManager : MonoBehaviour
                 isPlayerTurn = true;
                 oldPref = null;
                 newPref = null;
+                EGM.isEndGameTriggered = false;
+                EGM.isAILost = false;
+                BM.isAIMoveRemoved = false;
+                BM.isAIcanMove = true;
+                isRevStringSelected=false;
                 BoardSetup();
                 GeneratePieces();
                 UpdateBoardData();
                 IsPlayerCanMove();
-                EGM.isEndGameTriggered = false;
-                BM.isAIcanMove = true;
+
+
 
             }
 
@@ -261,6 +267,7 @@ public class GameManager : MonoBehaviour
                             oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
                             selectedPiece = false;
                             isPlayerTurn = false;
+                            print("player turn\n");
                         }
                         else
                         {
@@ -280,6 +287,7 @@ public class GameManager : MonoBehaviour
                             oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
                             selectedPiece = false;
                             isPlayerTurn = false;
+                            print("player turn\n");
                         }
                         else
                         {
@@ -318,6 +326,7 @@ public class GameManager : MonoBehaviour
 
     public void MovePiece(int x1, int y1, int x2, int y2, string letter)
     {
+        print("Turn: " + (turnCount++ ) + "\n");
         //print(pawnObj[x1, y1] + "\n");
         //print(pawnObj[x1, y1].transform.position + "\n");
         //print(pawnObj[x2, y2] + "\n");
@@ -348,7 +357,10 @@ public class GameManager : MonoBehaviour
         oldPawnPositionArray[x1, y1] = "E"; //save data
         oldPawnPositionArray[x2, y2] = letter;//save data
         UpdateBoardData();
-        print("Turn: " + turnCount++);
+        
+
+        
+
 
     }
 
@@ -402,8 +414,8 @@ public class GameManager : MonoBehaviour
             // concat each string into one string
             allPawnPositionsIntoLongString = string.Concat(collectPawnStringCodeList);
 
-            print("Algorithm         " + algList.IndexOf(allPawnPositionsIntoLongString));
-            print("Algorithm mirrored    " + algList.IndexOf(mirrorAllPawnPositionIntoLongString));
+           // print("Algorithm         " + algList.IndexOf(allPawnPositionsIntoLongString));
+            //print("Algorithm mirrored    " + algList.IndexOf(mirrorAllPawnPositionIntoLongString));
         }
         //check for mirror algorithms and return a index value
         int temp = algList.IndexOf(allPawnPositionsIntoLongString);
@@ -430,7 +442,7 @@ public class GameManager : MonoBehaviour
             isRevStringSelected = false;
         }
 
-
+        
         print(string.Concat(allPawnPositionsIntoLongString));
 
 
@@ -490,46 +502,5 @@ public class GameManager : MonoBehaviour
         return isCanPlay;
 
     }
-   /* public void EndGame()
-    {
-        //EEWWEBBEE // AI WINS
-        //WEEBEWEEB// AI WINS
-        //EWEWBWBEB // PLAYER WINS
-        //EWEWBEBEE // AI WINS
-        //EEEEWEEBE   //PLAYER WINS
-        //EEWEWBEBE //AI WINS
-        //WEEBWEEBE //AI WINS
 
-        if (!allPawnPositionsIntoLongString.Contains("W"))
-        {
-            print("AI wins No more W piece");
-            isEndGameTriggered = true;
-        }
-        else if (!allPawnPositionsIntoLongString.Contains("B"))
-        {
-            print("Player wins No more B piece");
-            isEndGameTriggered = true;
-        }
-        else if (firstThreeLetters.Contains("B"))
-        {
-            print("AI wins crossed the finish line");
-            isEndGameTriggered = true;
-        }
-        else if (LastThreeLetters.Contains("W"))
-        {
-            print("Player wins crossed the finish line");
-            isEndGameTriggered = true;
-        }
-        else if (!BM.isAIcanMove)
-        {
-            print("Bot unable to move, player Wins!");
-            isEndGameTriggered = true;
-        }
-
-        if (!IsPlayerCanMove() && isPlayerTurn)
-        {
-            print("plyer cant move, bot wins");
-            isEndGameTriggered = true;
-        }
-    }*/
 }

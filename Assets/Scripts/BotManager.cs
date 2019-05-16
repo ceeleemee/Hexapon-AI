@@ -9,7 +9,8 @@ public class BotManager : MonoBehaviour
 
     private GameObject findGMGameObject;
     private GameManager GM;
-
+    private GameObject findEGMGameObject;
+    private EndGameManager EGM;
     private float interval = 3f;
 
     private int random = 0;
@@ -21,8 +22,8 @@ public class BotManager : MonoBehaviour
     private int LEFT = 0;
     private int RIGHT = 2;
     public bool isAIcanMove = true;
-
-    private List<int> algList0 = new List<int>() { 0, 1, 2 };
+    public bool isAIMoveRemoved = false;
+    /*private List<int> algList0 = new List<int>() { 0, 1, 2 };
     private List<int> algList1 = new List<int>() { 0, 1, };
     private List<int> algList2 = new List<int>() { 0, 1, 2, 3 };
     private List<int> algList3 = new List<int>() { 0, 1, 2, 3 };
@@ -46,14 +47,37 @@ public class BotManager : MonoBehaviour
     private List<int> algList21 = new List<int>() { 0, 1, };
     private List<int> algList22 = new List<int>() { 0, 1, };
     private List<int> algList23 = new List<int>() { 0, 1, };
+    private List<string> algList = new List<string>()
+    {
+        //not the comma has to be together but it isnt when concat happens because i didnt code it to be like htat
+        "0,1,2" , "0,1," , "0,1,2,3" , "0,1,2,3",
+        "0,1,2," , "0,1,2," , "0,1,2," , "0,1,",
+        "0,1," , "0,1," , "0,1," , "0,1,",
+        "0," , "0,1," , "0," , "0,1",
+        "0,1," , "0,1," , "0,1," , "0,1,2,",
+        "0,1," , "0,1," , "0,1," , "0,1,",
+    };*/
+    private string[] algArray = new string[] {
+        "012","01","0123","0123",
+        "012","012","012","01",
+        "01","01","01","01",
+        "0","01","0","01",
+        "01","01","01","012",
+        "01","01","01","01"
+    };
+    List<string> subList;
+    int tempIndexPawnPosition;
+    int tempIndexValue = 0;
 
     private void Start()
     {
+
         findGMGameObject = GameObject.FindGameObjectWithTag("GM");
         GM = findGMGameObject.GetComponent<GameManager>();
+        findEGMGameObject = GameObject.FindGameObjectWithTag("EGM");
+        EGM = findEGMGameObject.GetComponent<EndGameManager>();
+        subList = new List<string>();
 
-
-        print(algList0.Count);
 
     }
 
@@ -62,63 +86,161 @@ public class BotManager : MonoBehaviour
         if (!GM.isPlayerTurn)
         {
 
+
+
             AITurn();
-
             //print("player wins");
-
-
         }
         if (GM.isRevStringSelected)
         {
             LEFT = 2;
             RIGHT = 0;
-
+            
         }
         else
         {
             LEFT = 0;
             RIGHT = 2;
-
+           
         }
+        if (GM.indexPawnPosition >= 0)
+        {
+            tempIndexPawnPosition = GM.indexPawnPosition;
+        }
+
 
     }
 
+    public int AlgSplitMethod()
+    {
+        subList.Clear();
+        //string value = algList[tempIndexPawnPosition];
+        string value = algArray[tempIndexPawnPosition];
+        //har delimiter = '';
+        //string[] substrings = value.Split(delimiter);
+        
+        foreach (char stuff in value)
+        {
+            string temp = stuff.ToString();
+            subList.Add(temp);
+            //print(stuff);
+        }
+
+        random = Random.Range(0, subList.Count);
+        //random = 2;
+        //print("subList[random] " + subList[random] + " random = " +random +"\n");
+        tempIndexValue = int.Parse(subList[random]);
+        print("tempIndexValue1 " + tempIndexValue);
+        print("algArray[GM.indexPawnPosition] " + algArray[tempIndexPawnPosition] + "\n");
+        return int.Parse(subList[random]);
+        /*foreach (string stuff in subList)
+        {
+            print(stuff);
+        }
+        print(subList[0]);*/
+    }
+
+
+    public void AILostRemoveMoves2()
+    {
+        print("subList.Count " + subList.Count);
+        print("tempIndexValue2  " + tempIndexValue);
+        if (subList.Count > 1 && !isAIMoveRemoved) // only delete if there are more than 1 in the list
+        {
+
+
+            //print("algList[GM.indexPawnPosition] " + algList[tempIndexPawnPosition] + "\n");
+            subList.RemoveAt(tempIndexValue);
+            //algList[tempIndexPawnPosition] = string.Concat(subList);
+            algArray[tempIndexPawnPosition] = string.Concat(subList);
+            print("algArray[GM.indexPawnPosition] " + algArray[tempIndexPawnPosition] + "\n");
+            //alg.Remove(algValue);
+            //print("alg" + algValue + "removed\n");
+            isAIMoveRemoved = true;
+
+        }
+    }
+
+    public void AILostRemoveMoves(List<int> alg, int algValue)
+    {
+        if (alg.Count > 1) // only delete if there are more than 1 in the list
+        {
+            if (!GM.allPawnPositionsIntoLongString.Contains("B") || GM.LastThreeLetters.Contains("W") || !isAIcanMove)
+            {
+                alg.Remove(algValue);
+                print("alg" + algValue + "removed\n");
+            }
+
+        }
+    }
+    int algStoreValue;
     private void AITurn()
     {
 
+
+        if (GM.indexPawnPosition < 0)
+        {
+            isAIcanMove = false;
+        }
         if (interval > 0)
         {
             interval -= Time.deltaTime;
         }
-        //**************************************************Turn   2***********************************
-        else if (GM.indexPawnPosition == 0)
+        else
         {
+            if (!EGM.isEndGameTriggered)
             {
-                int MAX = algList0.Count;   
-                random = Random.Range(0, MAX);
+
+                print("ai turn\n");
+            }
+
+            //**************************************************Turn   2***********************************
+            if (GM.indexPawnPosition == 0)
+            {
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+                //int MAX = algList0.Count;
+                //random = Random.Range(0, MAX);
                 //random = 1;
-                if (algList0[random] == 0)
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
                 }
-                else if (algList0[random] == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(MID, TOP, MID, MID, "B");
                 }
-                else if(algList0[random] ==2)
+                else
                 {
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
 
+                foreach (string stuff in algArray)
+                {
+                 //   print(stuff);
+                }
+
+                print("isRevStringSelected " + GM.isRevStringSelected);
+
+                //AILostRemoveMoves(algList0, algStoreValue);
+                //print("random " + algStoreValue + "\n");
+                //foreach (int stuff in algList0)
+                //    print("numbers left " + stuff + "\n");
+
             }
-        }
-        else if (GM.indexPawnPosition == 1)
-        {
+            else if (GM.indexPawnPosition == 1)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+                //    int MAX = algList1.Count;
+                //     random = Random.Range(0, MAX);
+                //     int algStoreValue = algList1[random];
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, TOP, LEFT, MID, "B");
@@ -129,27 +251,32 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(LEFT, TOP, MID, MID, "B");
                 }
                 Confirming();
+                //     AILostRemoveMoves(algList1, algStoreValue);
+
             }
-        }
-
-        //**************************************************Turn   4***********************************
-        else if (GM.indexPawnPosition == 2)
-        {
-
+            //**************************************************Turn   4***********************************
+            else if (GM.indexPawnPosition == 2)
             {
-                random = Random.Range(0, 4);
-                if (random == 0)
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                //     int MAX = algList2.Count;
+                //     random = Random.Range(0, MAX);
+                //     int algStoreValue = algList2[random];
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 }
-                else if (random == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
-                else if (random == 2)
+                else if (algStoreValue == 2)
                 {
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
 
@@ -160,26 +287,31 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList2, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 3)
-        {
-
+            else if (GM.indexPawnPosition == 3)
             {
-                random = Random.Range(0, 4);
-                if (random == 0)
+                //    int MAX = algList3.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList3[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
 
                 }
-                else if (random == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
 
                 }
-                else if (random == 2)
+                else if (algStoreValue == 2)
                 {
                     GM.MovePiece(MID, MID, RIGHT, BOT, "B");
 
@@ -190,21 +322,26 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList3, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 4)
-        {
-
+            else if (GM.indexPawnPosition == 4)
             {
-                random = Random.Range(0, 3);
-                if (random == 0)
+                //    int MAX = algList4.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList4[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
                 }
-                else if (random == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
@@ -215,21 +352,26 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList4, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 5)
-        {
-
+            else if (GM.indexPawnPosition == 5)
             {
-                random = Random.Range(0, 3);
-                if (random == 0)
+                //    int MAX = algList5.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList5[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
 
                 }
-                else if (random == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(MID, TOP, MID, MID, "B");
 
@@ -240,21 +382,26 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList5, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 6)
-        {
-
+            else if (GM.indexPawnPosition == 6)
             {
-                random = Random.Range(0, 3);
-                if (random == 0)
+                //    int MAX = algList6.Count;
+                //    random = Random.Range(0, MAX);
+                //   int algStoreValue = algList6[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, RIGHT, MID, "B");
 
                 }
-                else if (random == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(MID, MID, LEFT, BOT, "B");
 
@@ -265,15 +412,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
+                //     AILostRemoveMoves(algList6, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 7)
-        {
-
+            else if (GM.indexPawnPosition == 7)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList7.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList7[random];
+
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, RIGHT, MID, "B");
@@ -285,15 +437,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
                 }
                 Confirming();
+                //   AILostRemoveMoves(algList7, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 8)
-        {
-
+            else if (GM.indexPawnPosition == 8)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //     int MAX = algList8.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList8[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
@@ -306,15 +463,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(LEFT, MID, MID, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList8, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 9)
-        {
-
+            else if (GM.indexPawnPosition == 9)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList9.Count;
+                //     random = Random.Range(0, MAX);
+                //    int algStoreValue = algList9[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, TOP, MID, MID, "B");
@@ -327,15 +489,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
                 }
                 Confirming();
+                //      AILostRemoveMoves(algList9, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 10)
-        {
-
+            else if (GM.indexPawnPosition == 10)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList10.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList10[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
@@ -347,15 +514,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList10, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 11)
-        {
-
+            else if (GM.indexPawnPosition == 11)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //     int MAX = algList11.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList11[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
@@ -367,27 +539,46 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList11, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 12)
-        {
-
+            else if (GM.indexPawnPosition == 12)
             {
 
-                GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
+                //    int MAX = algList12.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList12[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
 
+                if (algStoreValue == 0)
+                {
+                    //old,new
+                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
+
+                }
+                else
+                {
+
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
+                }
                 Confirming();
+                //     AILostRemoveMoves(algList12, algStoreValue);
+
 
             }
-        }
-        /////******************************Turn    6 *********************
-        else if (GM.indexPawnPosition == 13)
-        {
-
+            /////******************************Turn    6 *********************
+            else if (GM.indexPawnPosition == 13)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList13.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList13[random];
+
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
@@ -400,27 +591,32 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList13, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 14)
-        {
-
+            else if (GM.indexPawnPosition == 14) //bot will always win on this move
             {
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
 
                 //old,new
                 GM.MovePiece(LEFT, TOP, MID, MID, "B");
 
-                Confirming();
+
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 15)
-        {
-
+            else if (GM.indexPawnPosition == 15)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList15.Count;
+                //     random = Random.Range(0, MAX);
+                //    int algStoreValue = algList15[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, RIGHT, MID, "B");
@@ -433,15 +629,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
                 }
                 Confirming();
+                //     AILostRemoveMoves(algList15, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 16)
-        {
-
+            else if (GM.indexPawnPosition == 16)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //     int MAX = algList16.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList16[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
@@ -454,15 +655,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList16, algStoreValue);
 
             }
-        }
-        else if (GM.indexPawnPosition == 17)
-        {
 
+            else if (GM.indexPawnPosition == 17)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList17.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList17[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
@@ -475,15 +681,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList17, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 18)
-        {
-
+            else if (GM.indexPawnPosition == 18)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList18.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList18[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, MID, RIGHT, BOT, "B");
@@ -496,21 +707,26 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList18, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 19)
-        {
-
+            else if (GM.indexPawnPosition == 19)
             {
-                random = Random.Range(0, 3);
-                if (random == 0)
+                //    int MAX = algList19.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList19[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
 
                 }
-                else if (random == 1)
+                else if (algStoreValue == 1)
                 {
                     GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
 
@@ -521,15 +737,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList19, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 20)
-        {
-
+            else if (GM.indexPawnPosition == 20)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //     int MAX = algList20.Count;
+                //    random = Random.Range(0, MAX);
+                //     int algStoreValue = algList20[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, LEFT, MID, "B");
@@ -541,15 +762,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList20, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 21)
-        {
-
+            else if (GM.indexPawnPosition == 21)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //   int MAX = algList21.Count;
+                //    random = Random.Range(0, MAX);
+                //    int algStoreValue = algList21[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(MID, TOP, RIGHT, MID, "B");
@@ -561,15 +787,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(MID, MID, MID, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList21, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 22)
-        {
-
+            else if (GM.indexPawnPosition == 22)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //    int MAX = algList22.Count;
+                //    random = Random.Range(0, MAX);
+                //     int algStoreValue = algList22[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(LEFT, TOP, MID, MID, "B");
@@ -581,15 +812,20 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(LEFT, MID, LEFT, BOT, "B");
                 }
                 Confirming();
+                //    AILostRemoveMoves(algList22, algStoreValue);
+
 
             }
-        }
-        else if (GM.indexPawnPosition == 23)
-        {
-
+            else if (GM.indexPawnPosition == 23)
             {
-                random = Random.Range(0, 2);
-                if (random == 0)
+                //     int MAX = algList23.Count;
+                //     random = Random.Range(0, MAX);
+                //     int algStoreValue = algList23[random];
+                algStoreValue = AlgSplitMethod();
+                print("tempIndexValue " + tempIndexValue + "\n");
+
+
+                if (algStoreValue == 0)
                 {
                     //old,new
                     GM.MovePiece(RIGHT, TOP, MID, MID, "B");
@@ -602,13 +838,15 @@ public class BotManager : MonoBehaviour
                     GM.MovePiece(RIGHT, MID, RIGHT, BOT, "B");
                 }
                 Confirming();
+                //     AILostRemoveMoves(algList23, algStoreValue);
+
+            }
+            if (!EGM.isEndGameTriggered)
+            {
+
+                print("algorithm #" + GM.indexPawnPosition + "\n");
             }
         }
-        else
-        {
-            isAIcanMove = false;
-        }
-
 
     }
     private void Confirming()
@@ -616,4 +854,5 @@ public class BotManager : MonoBehaviour
         GM.isPlayerTurn = true;
         interval = 3f;
     }
+
 }
