@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
     private LayerMask MaskTilePiece;
     private readonly float rayLength = 100f;
 
+    public bool isCanPlay = true;
+
     //Note alogithm 21 and 15 never happens because , algorithm 1 is always symmeterically about the middle coloumn.
     // AI always moves the left piece .
     //starting number is 0
@@ -105,8 +107,9 @@ public class GameManager : MonoBehaviour
     {
         if (isPlayerTurn)
             SelectPieceAndSaveData();
-
+        IsPlayerCanMove();
         RestartGame();
+        
         /*
         if (!isEndGameTriggered)
         {
@@ -123,7 +126,7 @@ public class GameManager : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece))
             {
-
+                
                 for (int y = 0; y < MAX; y++)
                     for (int x = 0; x < MAX; x++)
                     {
@@ -131,8 +134,11 @@ public class GameManager : MonoBehaviour
                         Destroy(pawnObjArray[x, y]);
                         Destroy(boardObjArray[x, y]);
                     }
+               ClearStringList();
+                   BoardSetup();
+              GeneratePieces();
+                BM.Confirming();//  isPlayerTurn = true;
                 turnCount = 1;
-                isPlayerTurn = true;
                 oldPref = null;
                 newPref = null;
                 EGM.isEndGameTriggered = false;
@@ -140,11 +146,8 @@ public class GameManager : MonoBehaviour
                 BM.isAIMoveRemoved = false;
                 BM.isAIcanMove = true;
                 isRevStringSelected=false;
-                BoardSetup();
-                GeneratePieces();
-                UpdateBoardData();
-                IsPlayerCanMove();
-
+                isCanPlay = true;
+                
 
 
             }
@@ -218,6 +221,8 @@ public class GameManager : MonoBehaviour
     }
     private void SelectPieceAndSaveData()
     {
+
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//mouse shoots an array       
         RaycastHit hit;
 
@@ -267,7 +272,7 @@ public class GameManager : MonoBehaviour
                             oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
                             selectedPiece = false;
                             isPlayerTurn = false;
-                            print("player turn\n");
+                            //print("player turn\n");
                         }
                         else
                         {
@@ -287,7 +292,7 @@ public class GameManager : MonoBehaviour
                             oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
                             selectedPiece = false;
                             isPlayerTurn = false;
-                            print("player turn\n");
+                            //print("player turn\n");
                         }
                         else
                         {
@@ -326,7 +331,7 @@ public class GameManager : MonoBehaviour
 
     public void MovePiece(int x1, int y1, int x2, int y2, string letter)
     {
-        print("Turn: " + (turnCount++ ) + "\n");
+        //print("Turn: " + (turnCount++ ) + "\n");
         //print(pawnObj[x1, y1] + "\n");
         //print(pawnObj[x1, y1].transform.position + "\n");
         //print(pawnObj[x2, y2] + "\n");
@@ -364,10 +369,8 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-    public void UpdateBoardData()
+    private void ClearStringList()
     {
-        //refresh each turn
         collectPawnStringCodeList.Clear();
         firstThreeLetters = "";
         midThreeLetters = "";
@@ -375,6 +378,14 @@ public class GameManager : MonoBehaviour
         firstRevThreeLetters = "";
         midRevThreeLetters = "";
         LastRevThreeLetters = "";
+    }
+
+
+    public void UpdateBoardData()
+    {
+        ClearStringList();
+        //refresh each turn
+
         //This whole step is required or it will print System.string[,]
         //Collect data from board and place it into a single string
         for (int y = 0; y < MAX; y++)
@@ -416,7 +427,6 @@ public class GameManager : MonoBehaviour
 
            // print("Algorithm         " + algList.IndexOf(allPawnPositionsIntoLongString));
             //print("Algorithm mirrored    " + algList.IndexOf(mirrorAllPawnPositionIntoLongString));
-        }
         //check for mirror algorithms and return a index value
         int temp = algList.IndexOf(allPawnPositionsIntoLongString);
         int temp2 = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
@@ -442,12 +452,14 @@ public class GameManager : MonoBehaviour
             isRevStringSelected = false;
         }
 
-        
-        print(string.Concat(allPawnPositionsIntoLongString));
+        print("************");
+        print("The first check algorithm " +indexPawnPosition+ " and The whole whole string "+ allPawnPositionsIntoLongString+"\n");
+        }
 
 
     }
-    public bool IsPlayerCanMove()
+    // This method words with whitepawn ray casting
+    public void IsPlayerCanMove()
     {
 
         int countNumberOfPiece = 0;
@@ -455,7 +467,7 @@ public class GameManager : MonoBehaviour
         int countNumberConfirmPieces2 = 0;
         int countNumberConfirmPieces3 = 0;
         int countNumberConfirmPiecesSum = 0;
-        bool isCanPlay = true;
+   
         foreach (string stuff in collectPawnStringCodeList)
         {
             if (stuff == "W")
@@ -499,7 +511,8 @@ public class GameManager : MonoBehaviour
             isCanPlay = true;
         }
         //print("white pieces " + countNumberOfPiece + ", Can't move white pieces " + countNumberConfirmPiecesSum);
-        return isCanPlay;
+
+        
 
     }
 

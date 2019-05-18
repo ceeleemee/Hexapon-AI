@@ -84,7 +84,7 @@ public class EndGameManager : MonoBehaviour
             isEndGameTriggered = true;
             isAILost = true;
             BM.AILostRemoveMoves2();
-        }
+        }else
         
         //what was the reason why i separate this? to separte the different lose
         // or they will trigger at the same time
@@ -95,10 +95,11 @@ public class EndGameManager : MonoBehaviour
             isEndGameTriggered = true;
             isAILost = true;
             BM.AILostRemoveMoves2();
-        }
-
-        if (!GM.IsPlayerCanMove() && GM.isPlayerTurn)
+        }else
+            
+        if (!GM.isCanPlay && GM.isPlayerTurn)
         {
+            
             gameObject.GetComponent<MeshRenderer>().material = aiWinPlayerCantMove;
             print("plyer cant move, bot wins");
             isEndGameTriggered = true;
