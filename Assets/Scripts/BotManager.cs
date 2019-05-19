@@ -162,7 +162,7 @@ public class BotManager : MonoBehaviour
     {
         if (alg.Count > 1) // only delete if there are more than 1 in the list
         {
-            if (!GM.allPawnPositionsIntoLongString.Contains("B") || GM.LastThreeLetters.Contains("W") || !isAIcanMove)
+            if (!GM.pawnPositionsIntoLongString.Contains("B") || GM.threeLetters[0].Contains("W") || !isAIcanMove)
             {
                 alg.Remove(algValue);
                 print("alg" + algValue + "removed\n");
@@ -552,7 +552,7 @@ public class BotManager : MonoBehaviour
 
 
                     //old,new
-                    GM.MovePiece(RIGHT, TOP, MID, MID, "B");
+                    GM.MovePiece(RIGHT, TOP, RIGHT, MID, "B");
 
 
                 Confirming();

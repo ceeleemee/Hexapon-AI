@@ -57,13 +57,13 @@ public class EndGameManager : MonoBehaviour
     }
     void Ending()
     {
-        if (!GM.allPawnPositionsIntoLongString.Contains("W"))
+        if (!GM.pawnPositionsIntoLongString.Contains("W"))
         {
             gameObject.GetComponent<MeshRenderer>().material = aiWinPlayerCantMove;
             print("AI wins No more W piece");
             isEndGameTriggered = true;
         }
-        else if (!GM.allPawnPositionsIntoLongString.Contains("B"))
+        else if (!GM.pawnPositionsIntoLongString.Contains("B"))
         {
             gameObject.GetComponent<MeshRenderer>().material = playerWinAiCantMove; //ai lose
             print("Player wins No more B piece");
@@ -71,13 +71,13 @@ public class EndGameManager : MonoBehaviour
             isAILost = true;
             BM.AILostRemoveMoves2();
         }
-        else if (GM.firstThreeLetters.Contains("B"))
+        else if (GM.threeLetters[0].Contains("B"))
         {
             gameObject.GetComponent<MeshRenderer>().material = aiCross;
             print("AI wins crossed the finish line");
             isEndGameTriggered = true;
         }
-        else if (GM.LastThreeLetters.Contains("W"))
+        else if (GM.threeLetters[2].Contains("W"))
         {
             gameObject.GetComponent<MeshRenderer>().material = playerCross; //ai lose
             print("Player wins crossed the finish line");
