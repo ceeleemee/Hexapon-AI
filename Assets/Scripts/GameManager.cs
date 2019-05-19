@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         MaskBlackPiece = LayerMask.GetMask("BlackPiece");
         MaskTilePiece = LayerMask.GetMask("Tile");
         oldPref = GetComponent<GameObject>();// rbPref = Rigidbody; is it different?
+        newPref = GetComponent<GameObject>();
         initialPawnStringPosition = new List<string>();
         pawnPositionArray = new string[MAX, MAX];
         pawnObjArray = new GameObject[MAX, MAX];
@@ -94,56 +95,38 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (isPlayerTurn)
-            SelectPieceAndSaveData();
-        confirmPlayerCanMove(WPPieceTrigging(0), WPPieceTrigging(1), WPPieceTrigging(2));
-        RestartGame();
 
-        /*
-        if (!isEndGameTriggered)
-        {
-            Ending();
-        }*/
+        SelectPieceAndSaveData();
+        ConfirmPlayerCanMove(WPPieceTrigging(0), WPPieceTrigging(1), WPPieceTrigging(2));
+
     }
 
-    void RestartGame()
+    public void RestartGame()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//mouse shoots an array
-        float rayLength = 100f;
-        RaycastHit hit;
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece))
+        for (int y = 0; y < MAX; y++)
+            for (int x = 0; x < MAX; x++)
             {
 
-                for (int y = 0; y < MAX; y++)
-                    for (int x = 0; x < MAX; x++)
-                    {
-
-                        Destroy(pawnObjArray[x, y]);
-                        Destroy(boardObjArray[x, y]);
-                    }
-                ClearStringList();
-                BoardSetup();
-                GeneratePieces(whitePawnGO,0,"W");
-                GeneratePieces(emptyPawnGo,1,"E");
-                GeneratePieces(blackPawnGo,2,"B");
-                BM.Confirming();//  isPlayerTurn = true;
-                turnCount = 1;
-                oldPref = null;
-                newPref = null;
-                EGM.isEndGameTriggered = false;
-                EGM.isAILost = false;
-                BM.isAIMoveRemoved = false;
-                BM.isAIcanMove = true;
-                isRevStringSelected = false;
-                isCanPlay = true;
-
-
-
+                Destroy(pawnObjArray[x, y]);
+                Destroy(boardObjArray[x, y]);
             }
-
-        }
+        ClearStringList();
+        BoardSetup();
+        GeneratePieces(whitePawnGO, 0, "W");
+        GeneratePieces(emptyPawnGo, 1, "E");
+        GeneratePieces(blackPawnGo, 2, "B");
+        BM.Confirming();//  isPlayerTurn = true;
+        turnCount = 1;
+        oldPref = null;
+        newPref = null;
+        EGM.isEndGameTriggered = false;
+        EGM.isAILost = false;
+        BM.isAIMoveRemoved = false;
+        BM.isAIcanMove = true;
+        isRevStringSelected = false;
+        isCanPlay = true;
+        BM.interval = 3f;
+        EGM.interval = 3f;
 
 
     }
@@ -204,67 +187,76 @@ public class GameManager : MonoBehaviour
         //this clicks on mouse
         if (Input.GetMouseButtonDown(0))
         {
-
-            if (Physics.Raycast(ray, out hit, rayLength, MaskWhitePiece))
+            if (isPlayerTurn)
             {
-                //refresh colour for whites but not the selected piece.
-                //
-                for (int y = 0; y < MAX; y++)
+                if (Physics.Raycast(ray, out hit, rayLength, MaskWhitePiece))
                 {
-                    for (int x = 0; x < MAX; x++)
+                    //refresh colour for whites but not the selected piece.
+                    //
+                    for (int y = 0; y < MAX; y++)
                     {
-                        //constantly checking each pieces if it is a tagged whtiepawn
-                        if (pawnObjArray[x, y].transform.gameObject.tag == "WhitePawn")
-                            pawnObjArray[x, y].GetComponent<MeshRenderer>().material.color = defaultColour;
+                        for (int x = 0; x < MAX; x++)
+                        {
+                            //constantly checking each pieces if it is a tagged whtiepawn
+                            if (pawnObjArray[x, y].transform.gameObject.tag == "WhitePawn")
+                                pawnObjArray[x, y].GetComponent<MeshRenderer>().material.color = defaultColour;
+
+                        }
+                    }
+
+                    if (hit.transform.GetComponent<MeshRenderer>().material.color != selectedColour)
+                    {
+                        oldPref = hit.transform.gameObject;
+                        oldPref.GetComponent<MeshRenderer>().material.color = selectedColour;
+
                     }
                 }
-
-                if (hit.transform.GetComponent<MeshRenderer>().material.color != selectedColour)
+                if (Physics.Raycast(ray, out hit, rayLength, MaskBlackPiece))
                 {
-                    oldPref = hit.transform.gameObject;
-                    oldPref.GetComponent<MeshRenderer>().material.color = selectedColour;
+                    //When white piece is yellow consume blackpiece
+                    if ((newPref = hit.transform.gameObject) && newPref != null && oldPref != null)
+                    {
+                        //Mathf.Abs(newPref.position.x - curPref.transform.position.x) <= 10 && (newPref.position.y - curPref.transform.position.y)<=10||(newPref.position.y != curPref.transform.position.y) &&(newPref.position.x != curPref.transform.position.x)
+                        if (Mathf.Abs(newPref.transform.position.x - oldPref.transform.position.x) == 10 
+                            && (newPref.transform.position.y - oldPref.transform.position.y) == 10)
+                        {
+                            MovePiece((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10,
+                                (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
+                            oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
+                            isPlayerTurn = false;
+                            //print("player turn\n");
+                        }
+                        else
+                        {
+                            newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+                        }
+                    }
 
+                }
+                else if (Physics.Raycast(ray, out hit, rayLength, MaskTilePiece))
+                {
+                    if ((newPref = hit.transform.gameObject) && newPref !=null && oldPref != null)
+                    {
+                        //control distance between selected pref and other objects
+                        if ((newPref.transform.position.y - oldPref.transform.position.y) == 10 
+                            && Mathf.Abs(newPref.transform.position.x - oldPref.transform.position.x) == 0)
+                        {
+                            MovePiece((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10,
+                                (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
+                            oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
+                            isPlayerTurn = false;
+                            //print("player turn\n");
+                        }
+                        else
+                        {
+                            newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+                        }
+                    }
                 }
             }
-            if (Physics.Raycast(ray, out hit, rayLength, MaskBlackPiece))
+            if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece))
             {
-                //When white piece is yellow consume blackpiece
-                if ((newPref = hit.transform.gameObject))
-                {
-                    //Mathf.Abs(newPref.position.x - curPref.transform.position.x) <= 10 && (newPref.position.y - curPref.transform.position.y)<=10||(newPref.position.y != curPref.transform.position.y) &&(newPref.position.x != curPref.transform.position.x)
-                    if (Mathf.Abs(newPref.transform.position.x - oldPref.transform.position.x) == 10 && (newPref.transform.position.y - oldPref.transform.position.y) == 10)
-                    {
-                        MovePiece((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10,
-                            (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
-                        oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
-                        isPlayerTurn = false;
-                        //print("player turn\n");
-                    }
-                    else
-                    {
-                        newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-                    }
-                }
-
-            }
-            else if (Physics.Raycast(ray, out hit, rayLength, MaskTilePiece))
-            {
-                if ((newPref = hit.transform.gameObject))
-                {
-                    //control distance between selected pref and other objects
-                    if ((newPref.transform.position.y - oldPref.transform.position.y) == 10 && Mathf.Abs(newPref.transform.position.x - oldPref.transform.position.x) == 0)
-                    {
-                        MovePiece((int)oldPref.transform.position.x / 10, (int)oldPref.transform.position.y / 10,
-                            (int)newPref.transform.position.x / 10, (int)newPref.transform.position.y / 10, "W");
-                        oldPref.gameObject.GetComponent<MeshRenderer>().material.color = defaultColour;
-                        isPlayerTurn = false;
-                        //print("player turn\n");
-                    }
-                    else
-                    {
-                        newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-                    }
-                }
+                RestartGame();
             }
 
         }
@@ -321,8 +313,7 @@ public class GameManager : MonoBehaviour
 
         pawnPositionArray[x1, y1] = "E"; //save data
         pawnPositionArray[x2, y2] = letter;//save data
-        if (isPlayerTurn)
-            UpdateBoardData();
+        UpdateBoardData();
     }
 
     private void ClearStringList()
@@ -360,44 +351,40 @@ public class GameManager : MonoBehaviour
                 revThreeLetters[y] += pawnPositionArray[x, y];
             }
         }
+        mirrorAllPawnPositionIntoLongString = string.Join("", revThreeLetters[0], revThreeLetters[1], revThreeLetters[2]);
+        // concat each string into one string
+        pawnPositionsIntoLongString = string.Concat(initialPawnStringPosition);
+        print(pawnPositionsIntoLongString);
+        // print("Algorithm         " + algList.IndexOf(allPawnPositionsIntoLongString));
+        //print("Algorithm mirrored    " + algList.IndexOf(mirrorAllPawnPositionIntoLongString));
+        //check for mirror algorithms and return a index value
+        int temp = algList.IndexOf(pawnPositionsIntoLongString);
+        int temp2 = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
 
-
+        if (temp == -1 || temp2 == 7 || temp2 == 18 || temp2 == 23 || temp2 == 15 || temp2 == 21)
         {
-            mirrorAllPawnPositionIntoLongString = string.Join("", revThreeLetters[0], revThreeLetters[1], revThreeLetters[2]);
-            //List<> revCompareBoardtoalgo = firstRevThreeLetters.Concat(firstRevThreeLetters).Concat(midRevThreeLetters)
-            // concat each string into one string
-            pawnPositionsIntoLongString = string.Concat(initialPawnStringPosition);
-            print(pawnPositionsIntoLongString);
-            // print("Algorithm         " + algList.IndexOf(allPawnPositionsIntoLongString));
-            //print("Algorithm mirrored    " + algList.IndexOf(mirrorAllPawnPositionIntoLongString));
-            //check for mirror algorithms and return a index value
-            int temp = algList.IndexOf(pawnPositionsIntoLongString);
-            int temp2 = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
-
-            if (temp == -1 || temp2 == 7 || temp2 == 18 || temp2 == 23 || temp2 == 15 || temp2 == 21)
-            {
-                indexPawnPosition = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
-                isRevStringSelected = true;
-            }
-            else if (temp == 1)
-            {
-                int random = Random.Range(0, 2);
-                print(random + "random");
-                if (random == 0)
-                    isRevStringSelected = true;
-                else
-                    isRevStringSelected = false;
-                indexPawnPosition = algList.IndexOf(pawnPositionsIntoLongString);
-            }
-            else
-            {
-                indexPawnPosition = algList.IndexOf(pawnPositionsIntoLongString);
-                isRevStringSelected = false;
-            }
-
-            print("************");
-            print("The first check algorithm " + indexPawnPosition + " and The whole whole string " + pawnPositionsIntoLongString + "\n");
+            indexPawnPosition = algList.IndexOf(mirrorAllPawnPositionIntoLongString);
+            isRevStringSelected = true;
         }
+        else if (temp == 1)
+        {
+            int random = Random.Range(0, 2);
+            print(random + "random");
+            if (random == 0)
+                isRevStringSelected = true;
+            else
+                isRevStringSelected = false;
+            indexPawnPosition = algList.IndexOf(pawnPositionsIntoLongString);
+        }
+        else
+        {
+            indexPawnPosition = algList.IndexOf(pawnPositionsIntoLongString);
+            isRevStringSelected = false;
+        }
+
+        print("************");
+        print("The first check algorithm " + indexPawnPosition + " and The whole whole string " + pawnPositionsIntoLongString + "\n");
+
 
 
     }
@@ -416,7 +403,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public void confirmPlayerCanMove(int aCount, int bCount, int cCount)
+    public void ConfirmPlayerCanMove(int aCount, int bCount, int cCount)
     {
         int countNumberOfPiece = 0;
         int sum = aCount + cCount + bCount;

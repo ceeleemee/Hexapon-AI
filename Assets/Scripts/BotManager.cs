@@ -11,7 +11,7 @@ public class BotManager : MonoBehaviour
     private GameManager GM;
     private GameObject findEGMGameObject;
     private EndGameManager EGM;
-    private float interval = 3f;
+    public float interval = 3f;
 
     private int randMoveIndexAlglist = 0;
 

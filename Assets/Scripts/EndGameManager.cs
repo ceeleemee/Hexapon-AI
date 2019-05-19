@@ -18,6 +18,8 @@ public class EndGameManager : MonoBehaviour
     public Material aiWinPlayerCantMove;
     public bool isEndGameTriggered = false;
     public bool isAILost = false;
+    public float interval = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,76 +36,104 @@ public class EndGameManager : MonoBehaviour
         if (!isEndGameTriggered)
         {
             Ending();
-        }
 
-
-        if (!isEndGameTriggered)
-        {
+  
             if (GM.isPlayerTurn)
             {
                 gameObject.GetComponent<MeshRenderer>().material = playerTurn;
-                
+
             }
             else
             {
                 gameObject.GetComponent<MeshRenderer>().material = aiTurn;
-      
+
 
             }
+        }
+        else
+        {
+            ResetGameInterval();
+
         }
 
 
 
     }
+
     void Ending()
     {
-        if (!GM.pawnPositionsIntoLongString.Contains("W"))
-        {
-            gameObject.GetComponent<MeshRenderer>().material = aiWinPlayerCantMove;
-            print("AI wins No more W piece");
-            isEndGameTriggered = true;
-        }
-        else if (!GM.pawnPositionsIntoLongString.Contains("B"))
-        {
-            gameObject.GetComponent<MeshRenderer>().material = playerWinAiCantMove; //ai lose
-            print("Player wins No more B piece");
-            isEndGameTriggered = true;
-            isAILost = true;
-            BM.AILostRemoveMoves2();
-        }
-        else if (GM.threeLetters[0].Contains("B"))
-        {
-            gameObject.GetComponent<MeshRenderer>().material = aiCross;
-            print("AI wins crossed the finish line");
-            isEndGameTriggered = true;
-        }
-        else if (GM.threeLetters[2].Contains("W"))
-        {
-            gameObject.GetComponent<MeshRenderer>().material = playerCross; //ai lose
-            print("Player wins crossed the finish line");
-            isEndGameTriggered = true;
-            isAILost = true;
-            BM.AILostRemoveMoves2();
-        }else
-        
-        //what was the reason why i separate this? to separte the different lose
-        // or they will trigger at the same time
-        if (!BM.isAIcanMove)
-        {
-            gameObject.GetComponent<MeshRenderer>().material = playerWinAiCantMove; //ai lose
-            print("Bot unable to move, player Wins!");
-            isEndGameTriggered = true;
-            isAILost = true;
-            BM.AILostRemoveMoves2();
-        }else
-            
-        if (!GM.isCanPlay && GM.isPlayerTurn)
-        {
-            
-            gameObject.GetComponent<MeshRenderer>().material = aiWinPlayerCantMove;
-            print("plyer cant move, bot wins");
-            isEndGameTriggered = true;
-        }
 
+            if (!GM.pawnPositionsIntoLongString.Contains("W"))//aiWinPlayerCantMove
+            {
+                gameObject.GetComponent<MeshRenderer>().material = aiWinPlayerCantMove;
+                print("AI wins No more W piece");
+                isEndGameTriggered = true;
+
+            }
+            else if (!GM.pawnPositionsIntoLongString.Contains("B"))//playerWinAiCantMove
+            {
+                gameObject.GetComponent<MeshRenderer>().material = playerWinAiCantMove; //ai lose
+                print("Player wins No more B piece");
+                isAILost = true;
+                BM.AILostRemoveMoves2();
+                isEndGameTriggered = true;
+
+            }
+            else if (GM.threeLetters[0].Contains("B"))//ai Cross finish line
+            {
+
+                gameObject.GetComponent<MeshRenderer>().material = aiCross;
+                print("AI wins crossed the finish line");
+                isEndGameTriggered = true;
+
+            }
+            else if (GM.threeLetters[2].Contains("W")) //player Cross finish line
+            {
+                gameObject.GetComponent<MeshRenderer>().material = playerCross; //ai lose
+                print("Player wins crossed the finish line");
+                isAILost = true;
+                BM.AILostRemoveMoves2();
+                isEndGameTriggered = true;
+
+            }
+            else
+
+            //what was the reason why i separate this? to separte the different lose
+            // or they will trigger at the same time
+            if (!BM.isAIcanMove)
+            {
+                gameObject.GetComponent<MeshRenderer>().material = playerWinAiCantMove; //ai lose
+                print("Bot unable to move, player Wins!");
+                isAILost = true;
+                BM.AILostRemoveMoves2();
+                isEndGameTriggered = true;
+
+            }
+            else
+
+            if (!GM.isCanPlay && GM.isPlayerTurn)
+            {
+
+                gameObject.GetComponent<MeshRenderer>().material = aiWinPlayerCantMove;
+                print("plyer cant move, bot wins");
+                isEndGameTriggered = true;
+
+            }
+        
+
+    }
+    private void ResetGameInterval()
+    {
+
+            if (interval > 0)
+            {
+                interval -= Time.deltaTime;
+            }
+            else
+            {
+                isEndGameTriggered = true;
+                GM.RestartGame();
+            }
+        
     }
 }
