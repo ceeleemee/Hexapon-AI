@@ -1,0 +1,28 @@
+Step 1
+Instruction: Open Hexapon app
+Expected: Board and menu are in view
+Actual:
+
+step 2
+Instructions: Move the white pawn all the way to the top
+Expected: Text will change to "Player wins, crossed the finish line" 
+
+step 3
+Instructions: Allow black pawn move all the way to the button
+Expected:Text will change to "AI wins, crossed the finish line" 
+
+step 4
+Instructions: Play until black pawn cannot move
+Expected:Text will change to "Player wins, AI unable to move" 
+
+step 5
+Instructions: Play until white pawn cannot move
+Expected:Text will change to "Ai wins, Player unable to move" 
+
+step 6
+Instructions: Play until there is no more white pawns
+Expected: Text will change to "Ai wins, Player unable to move" 
+
+step 7
+Instructions: Play until there is no more black pawns
+Expected: Text will change to "Player wins, AI unable to move" 

@@ -1,0 +1,37 @@
+TC1 object colours
+
+Step 1
+Instruction: Open Hexapon app
+Expected: Board and menu are in view
+Actual:
+
+Step 2
+Instructions: Touch a white pawn on the board
+Expected: The white pawn is now a yellow colour.
+Actual:
+
+Step 3
+Instructions: Touch on a different white pawn
+Expected: The yellow pawn is now white and the new selected white pawn is now yellow.
+Actual:
+
+Step 4
+Instructions: With a yellow pawn visible on the board, select an empty tile diagonal to the yellow pawn
+Expected: The selected tile changes to a red colour and after 3 seconds changes back to a aqua colour.
+			White pawn doesn't move.
+
+step 5
+Instructions: With a yellow pawn visible on the board, select any black pawn
+Expected: The black pawn changes to a red colour and after 3 seconds changes back to a aqua colour.
+
+step 6
+Instructions: With a yellow pawn visible on the board, select an empty tile above it
+Expected: The yellow pawn changes to a white colour and moves one tile above,
+
+
+step 7
+Instructions: Move a white pawn diagonal and eat a black pawn (might require another turn)
+Expected: The selected pawn becomes yellow and moves diagonal to a black pawn. The black pawn disappears and 
+			is replaced by the previous selected white pawn. The black pawn does not change to red.
+
+
