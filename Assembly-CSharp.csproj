@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\GameManagerListAttempt.cs" />
     <Compile Include="Assets\Scripts\GameManagerWithOutArray.cs" />
     <Compile Include="Assets\Scripts\InitiateManagers.cs" />
+    <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
     <Compile Include="Assets\Scripts\WhitePawn.cs" />
     <Reference Include="Unity.Timeline.Editor">

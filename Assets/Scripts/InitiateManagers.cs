@@ -6,6 +6,7 @@ public class InitiateManagers : MonoBehaviour
     public GameObject gameManger;
     public GameObject botManager;
     public GameObject endGameManager;
+    
     // Start is called before the first frame update
 
     void Awake()

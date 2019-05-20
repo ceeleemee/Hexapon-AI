@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     private readonly float rayLength = 100f;
 
     public bool isCanPlay = true;
-
+    public bool isEnableResetButton = false;
     //Note alogithm 21 and 15 never happens because , algorithm 1 is always symmeterically about the middle coloumn.
     // AI always moves the left piece .
     //starting number is 0
@@ -135,7 +135,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void CreateEverything()
     {
-        Instantiate(startButtonGo, new Vector3(0, 30, 1), Quaternion.identity);
+        if(isEnableResetButton)
+            Instantiate(startButtonGo, new Vector3(0, 30, 1), Quaternion.identity);
         BoardSetup();
         GeneratePieces(whitePawnGO, 0, "W");
         GeneratePieces(emptyPawnGo, 1, "E");
@@ -254,7 +255,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece))
+            if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece) )
             {
                 RestartGame();
             }
