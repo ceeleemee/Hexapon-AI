@@ -1,8 +1,8 @@
 # Hexapon-AI
 Like chess but on 3x3 against a AI runs on Unity coded with c#. 
 
-For anyone interested in testing it here is the 
-link [Google]
+For anyone interested in testing, here is a 
+link [play store link goes here]
 and here are the Test Cases https://github.com/ceeleemee/Hexapon-AI/tree/master/Test%20Cases
 
 
