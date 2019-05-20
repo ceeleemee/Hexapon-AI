@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject whitePawnGO;
     public GameObject emptyPawnGo;
     public GameObject startButtonGo;
+
     private GameObject oldPref;
     private GameObject newPref;
     private GameObject[,] pawnObjArray;
@@ -122,13 +123,11 @@ public class GameManager : MonoBehaviour
         EGM.isEndGameTriggered = false;
         EGM.isAILost = false;
         BM.isAIMoveRemoved = false;
-        BM.isAIcanMove = true;
+        BM.isAICanMove = true;
         isRevStringSelected = false;
         isCanPlay = true;
         BM.interval = 3f;
-        EGM.interval = 3f;
-
-
+        EGM.gameOverIndex = 0;
     }
 
 

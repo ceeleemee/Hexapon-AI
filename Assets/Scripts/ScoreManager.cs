@@ -16,24 +16,25 @@ public class ScoreManager : MonoBehaviour
     private List<string> lastFiveWinData = new List<string>() { "", "", "", "", "" };
     private void Start()
     {
-
         findEGMGameObject = GameObject.FindGameObjectWithTag("EGM");
         EGM = findEGMGameObject.GetComponent<EndGameManager>();
-
     }
     // Update is called once per frame
     void Update()
     {
         if (playerScoreText != null || aiScoreText != null)
         {
-
             playerScoreText.text = EGM.playerScoreCount.ToString();
             aiScoreText.text = EGM.aiScoreCount.ToString();
         }
-        if (playerTempScore < EGM.playerScoreCount || aiTempScore < EGM.aiScoreCount)
+        if (playerTempScore < EGM.playerScoreCount)
         {
-            lastFiveWinData.Add("player");
+            lastFiveWinData.Add("Player Won");
             playerTempScore = EGM.playerScoreCount;
+            
+        }else if (aiTempScore < EGM.aiScoreCount)
+        {
+            lastFiveWinData.Add("AI Won");
             aiTempScore = EGM.aiScoreCount;
         }
 
@@ -41,7 +42,6 @@ public class ScoreManager : MonoBehaviour
             lastFiveWinData.RemoveAt(0);
         if (lastFiveWinsText != null)
         {
-            
             lastFiveWinsText.text =
                 "" + lastFiveWinData[4] + "\n" +
                 "" + lastFiveWinData[3] + "\n" +

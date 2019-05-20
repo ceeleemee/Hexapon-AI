@@ -107,7 +107,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTurn: {fileID: 2100000, guid: 5ab67fb8246513e4c9f7260a428345df, type: 2}
   aiTurn: {fileID: 2100000, guid: 992103ab4a1d48143adf234e7cb68a87, type: 2}
+  gameOver: {fileID: 2100000, guid: 44794615cdabd314fbaacbb32f994b9b, type: 2}
   playerCross: {fileID: 2100000, guid: 013307455e70a2c4e8fed4b1cde2c571, type: 2}
   aiCross: {fileID: 2100000, guid: c69379f832d0e074fa8d2ab505c5f980, type: 2}
   playerWinAiCantMove: {fileID: 2100000, guid: 2be6aa33e0570624db35873bba78894b, type: 2}
   aiWinPlayerCantMove: {fileID: 2100000, guid: fd8fe53cad3569f4583c4f431dfd9c8f, type: 2}
+  gameOverOverlay: {fileID: 0}
+  isEndGameTriggered: 0
+  isAILost: 0
+  interval: 3
+  playerScoreCount: 0
+  aiScoreCount: 0

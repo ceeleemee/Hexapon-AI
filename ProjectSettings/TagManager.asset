@@ -13,6 +13,8 @@ TagManager:
   - Tile
   - TriggerTile
   - EGM
+  - PlayerScore
+  - AIScore
   layers:
   - Default
   - TransparentFX

@@ -21,7 +21,7 @@ public class BotManager : MonoBehaviour
     private readonly int TOP = 2;
     private int LEFT = 0;
     private int RIGHT = 2;
-    public bool isAIcanMove = true;
+    public bool isAICanMove = true;
     public bool isAIMoveRemoved = false;
     /*private List<int> algList0 = new List<int>() { 0, 1, 2 };
     private List<int> algList1 = new List<int>() { 0, 1, };
@@ -162,7 +162,7 @@ public class BotManager : MonoBehaviour
     {
         if (alg.Count > 1) // only delete if there are more than 1 in the list
         {
-            if (!GM.pawnPositionsIntoLongString.Contains("B") || GM.threeLetters[0].Contains("W") || !isAIcanMove)
+            if (!GM.pawnPositionsIntoLongString.Contains("B") || GM.threeLetters[0].Contains("W") || !isAICanMove)
             {
                 alg.Remove(algValue);
                 print("alg" + algValue + "removed\n");
@@ -177,7 +177,7 @@ public class BotManager : MonoBehaviour
 
         if (GM.indexPawnPosition < 0)
         {
-            isAIcanMove = false;
+            isAICanMove = false;
         }
         if (interval > 0)
         {
