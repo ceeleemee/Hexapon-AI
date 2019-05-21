@@ -29,7 +29,7 @@ public class ScoreManager : MonoBehaviour
         }
         if (playerTempScore < EGM.playerScoreCount)
         {
-            lastFiveWinData.Add("Player Won");
+            lastFiveWinData.Add("You Won");
             playerTempScore = EGM.playerScoreCount;
             
         }else if (aiTempScore < EGM.aiScoreCount)

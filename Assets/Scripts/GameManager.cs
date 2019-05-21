@@ -38,13 +38,11 @@ public class GameManager : MonoBehaviour
     private EndGameManager EGM;
     private WhitePawn[] WP;
     public bool isRevStringSelected = false;
-    private Vector3 target;
     private LayerMask MaskStartPiece;
     private LayerMask MaskWhitePiece;
     private LayerMask MaskBlackPiece;
     private LayerMask MaskTilePiece;
     private readonly float rayLength = 100f;
-
     public bool isCanPlay = true;
     public bool isEnableResetButton = false;
     //Note alogithm 21 and 15 never happens because , algorithm 1 is always symmeterically about the middle coloumn.
@@ -96,8 +94,8 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-
-        SelectPieceAndSaveData();
+        if(!EGM.isEndGameTriggered)// When game is over, pawn becomes unclickable
+            SelectPieceAndSaveData();
         ConfirmPlayerCanMove(WPPieceTrigging(0), WPPieceTrigging(1), WPPieceTrigging(2));
 
     }

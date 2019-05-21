@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Monetization;
 using UnityEngine.UI;
 
 public class GameOverOverlayManager : MonoBehaviour
@@ -12,6 +14,7 @@ public class GameOverOverlayManager : MonoBehaviour
     private GameObject findGMGameObject;
     private GameManager GM;
     public float interval = 2f;
+    public string placementId = "video";
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,29 @@ public class GameOverOverlayManager : MonoBehaviour
         GM.RestartGame();
         gameOverOverlay.gameObject.SetActive(false);
         interval = 2f;
+
+        if ((EGM.playerScoreCount + EGM.aiScoreCount) % 3 == 0)
+            ShowAd();
+    }
+    public void ShowAd()
+    {
+        StartCoroutine(ShowAdWhenReady());
+    }
+
+    private IEnumerator ShowAdWhenReady()
+    {
+        while (!Monetization.IsReady(placementId))
+        {
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        ShowAdPlacementContent ad = null;
+        ad = Monetization.GetPlacementContent(placementId) as ShowAdPlacementContent;
+
+        if(ad != null) {
+            ad.Show ();
+        }
+
     }
     // Update is called once per frame
     void Update()
@@ -46,6 +72,7 @@ public class GameOverOverlayManager : MonoBehaviour
                     gameOverOverlay.gameObject.SetActive(true);
                     gameOverText.text = "AI won, no more white pawn!";
                 }
+
                 break;
             case 2:
                 if (interval > 0)
@@ -55,8 +82,10 @@ public class GameOverOverlayManager : MonoBehaviour
                 else
                 {
                     gameOverOverlay.gameObject.SetActive(true);
-                    gameOverText.text = "Player won, no more black pawn!";
+                    gameOverText.text = "You won, no more black pawn!";
                 }
+                
+                    
                 break;
             case 3:
                 if (interval > 0)
@@ -68,6 +97,8 @@ public class GameOverOverlayManager : MonoBehaviour
                     gameOverOverlay.gameObject.SetActive(true);
                     gameOverText.text = "AI won, crossed the finish line!";
                 }
+                
+                    
                 break;
             case 4:
                 if (interval > 0)
@@ -77,8 +108,10 @@ public class GameOverOverlayManager : MonoBehaviour
                 else
                 {
                     gameOverOverlay.gameObject.SetActive(true);
-                    gameOverText.text = "Player won, crossed the finish line!";
+                    gameOverText.text = "You won, crossed the finish line!";
                 }
+                
+                    
                 break;
             case 5:
                 if (interval > 0)
@@ -88,8 +121,10 @@ public class GameOverOverlayManager : MonoBehaviour
                 else
                 {
                     gameOverOverlay.gameObject.SetActive(true);
-                    gameOverText.text = "AI unable to move, player won!";
+                    gameOverText.text = "AI unable to move, You won!";
                 }
+                
+                    
                 break;
             case 6:
                 if (interval > 0)
@@ -99,8 +134,10 @@ public class GameOverOverlayManager : MonoBehaviour
                 else
                 {
                     gameOverOverlay.gameObject.SetActive(true);
-                    gameOverText.text = "Player cannot move, AI won";
+                    gameOverText.text = "You cannot move, AI won";
                 }
+                
+                    
                 break;
         }
 

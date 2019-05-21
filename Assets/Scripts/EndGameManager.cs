@@ -34,14 +34,14 @@ public class EndGameManager : MonoBehaviour
     {
 
 
-        if (GM.isPlayerTurn)
+        if (isEndGameTriggered)
+        {
+            gameObject.GetComponent<MeshRenderer>().material = gameOver;
+        }
+        else if (GM.isPlayerTurn)
         {
             gameObject.GetComponent<MeshRenderer>().material = playerTurn;
 
-        }
-        else if (isEndGameTriggered)
-        {
-            gameObject.GetComponent<MeshRenderer>().material = gameOver;
         }
         else
         {
