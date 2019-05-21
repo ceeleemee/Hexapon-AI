@@ -1,0 +1,16 @@
+Step 1
+Instruction: Open Hexapon app
+Expected: Board,scores and menu are in view
+Actual:
+
+step 2
+Instructions: Complete one round
+Expected: Does the score update when You win or AI wins. Does the score list update showing the last winner
+
+Step 3
+Instructions: Complete another four more rounds
+Expected: Does the score update when You win or AI wins. Does the score list update showing the last five wins
+
+Step 4
+Instructions: Play one more round
+Expected: Does the score update when You win or AI wins. Does the score list update showing the last five wins where all the scores are shifted downwards. 
