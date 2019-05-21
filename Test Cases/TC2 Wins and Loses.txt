@@ -1,34 +1,34 @@
 Step 1
 Instruction: Open Hexapon app
-Expected: Board and menu are in view
+Expected: Board,scores and menu are in view
 Actual:
 
 step 2
 Instructions: Move the white pawn all the way to the top
-Expected: Text will change to "Player wins, crossed the finish line" 
-	3 seconds later the game resets
+Expected: A pop up will appear "You wins, crossed the finish line" and the score will increase your point by 1
+	
 
 step 3
-Instructions: Allow black pawn move all the way to the button
-Expected:Text will change to "AI wins, crossed the finish line" 
-		3 seconds later the game resets
+Instructions: Click New Game and play until a black pawn moves all the way to the button
+Expected: A pop up will appear "AI wins, crossed the finish line" and the score will increase AI point by 1
+		
 
 step 4
-Instructions: Play until black pawn cannot move
-Expected:Text will change to "Player wins, AI unable to move" 
-		3 seconds later the game resets
+Instructions: Click New Game and play until a black pawn cannot move
+Expected: A pop up will appear "You wins, AI unable to move" and the score will increase your point by 1
+		
 
 step 5
-Instructions: Play until white pawn cannot move
-Expected:Text will change to "Ai wins, Player unable to move" 
-		3 seconds later the game resets
+Instructions:Click New Game and play until a white pawn cannot move
+Expected: A pop up will appear"Ai wins, Player unable to move" and the score will increase AI point by 1
+		
 
 step 6
-Instructions: Play until there is no more white pawns
-Expected: Text will change to "Ai wins, Player unable to move" 
-		3 seconds later the game  resets
+Instructions: Click New Game and play until there are no more white pawns
+Expected:  A pop up will appear "Ai wins, You unable to move" and the score will increase AI point by 1
+		
 
 step 7
-Instructions: Play until there is no more black pawns
-Expected: Text will change to "Player wins, AI unable to move" 
-		3 seconds later the game resets
+Instructions: Click New Game and play until are no more black pawns
+Expected:  A pop up will appear "You wins, AI unable to move" and the score will increase your point by 1
+		
