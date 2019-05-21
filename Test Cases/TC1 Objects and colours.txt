@@ -1,8 +1,8 @@
-TC1 object colours
+TC1 Objects and colours
 
 Step 1
 Instruction: Open Hexapon app
-Expected: Board and menu are in view
+Expected: Board,score and menu are in view
 Actual:
 
 Step 2
