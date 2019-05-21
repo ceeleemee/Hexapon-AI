@@ -45,9 +45,7 @@ public class BlackPawn : MonoBehaviour
 
             if (gameObject.GetComponent<MeshRenderer>().material.color == Color.red && interval > 0)
             {
-
                 interval -= Time.deltaTime;
-
             }
             else
             {
@@ -55,17 +53,11 @@ public class BlackPawn : MonoBehaviour
                 interval = 3f;
             }
         }
-
-
     }
-
 
     /// <summary>
     /// Methods below currently does nothing
     /// </summary>
-
-
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -74,9 +66,6 @@ public class BlackPawn : MonoBehaviour
          //   other.gameObject.SetActive(false);
         }
     }
-
-
-
 
     //use rays to detect for black pieces
     private void DetectPieceDown(Vector3 rayDirection)
@@ -89,16 +78,9 @@ public class BlackPawn : MonoBehaviour
             {
 
                 Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, Color.red);                    
-
-
-
-
             }
-
-
-        
+       
     }
-
     private void DetectKillPieceDiagonal(Vector3 rayDirection)
     {
         RaycastHit hit;
@@ -115,8 +97,6 @@ public class BlackPawn : MonoBehaviour
                 }
                 else
                 {
-
-
                     if ((hit.collider.tag == "WhitePawn") )
                     {
                             Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, Color.green);
@@ -130,11 +110,6 @@ public class BlackPawn : MonoBehaviour
         }
 
     }
-
-
-
-
-
 
     //use rays to detect for white pieces
 

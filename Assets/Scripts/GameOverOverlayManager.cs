@@ -136,8 +136,7 @@ public class GameOverOverlayManager : MonoBehaviour
                     gameOverOverlay.gameObject.SetActive(true);
                     gameOverText.text = "You cannot move, AI won";
                 }
-                
-                    
+                              
                 break;
         }
 

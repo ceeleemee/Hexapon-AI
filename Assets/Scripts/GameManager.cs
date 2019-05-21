@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     {
         if(!EGM.isEndGameTriggered)// When game is over, pawn becomes unclickable
             SelectPieceAndSaveData();
-        ConfirmPlayerCanMove(WPPieceTrigging(0), WPPieceTrigging(1), WPPieceTrigging(2));
+        ConfirmPlayerCanMove();
 
     }
 
@@ -165,12 +165,9 @@ public class GameManager : MonoBehaviour
         //GameObject instance = Instantiate(isPieceWhite ? whitePawn : blackPawn, new Vector3(x * 10, y * 10, 0), Quaternion.Euler(90, 0, 0));
         for (int x = 0; x < MAX; x++)
         {
-
             pawnObjArray[x, yPosition] = GameObject.Instantiate(go, new Vector3(x * 10, yPosition * 10, 0), Quaternion.Euler(90, 0, 0));
             pawnPositionArray[x, yPosition] = initialLetter;
-            if (go == whitePawnGO)
-                WP[x] = pawnObjArray[x, yPosition].GetComponent<WhitePawn>();
-
+            if (go == whitePawnGO) WP[x] = pawnObjArray[x, yPosition].GetComponent<WhitePawn>();
             initialPawnStringPosition.Add(pawnPositionArray[x, yPosition]);
             //so there is codevalue as soon as object is instantiated
             pawnObjArray[x, yPosition].transform.SetParent(pieceHolder);
@@ -206,7 +203,6 @@ public class GameManager : MonoBehaviour
                     {
                         oldPref = hit.transform.gameObject;
                         oldPref.GetComponent<MeshRenderer>().material.color = selectedColour;
-
                     }
                 }
                 if (Physics.Raycast(ray, out hit, rayLength, MaskBlackPiece))
@@ -224,12 +220,8 @@ public class GameManager : MonoBehaviour
                             isPlayerTurn = false;
                             //print("player turn\n");
                         }
-                        else
-                        {
-                            newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-                        }
+                        else newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;                        
                     }
-
                 }
                 else if (Physics.Raycast(ray, out hit, rayLength, MaskTilePiece))
                 {
@@ -245,18 +237,12 @@ public class GameManager : MonoBehaviour
                             isPlayerTurn = false;
                             //print("player turn\n");
                         }
-                        else
-                        {
-                            newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-                        }
+                        else newPref.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+                        
                     }
                 }
             }
-            if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece) )
-            {
-                RestartGame();
-            }
-
+            if (Physics.Raycast(ray, out hit, rayLength, MaskStartPiece) ) RestartGame();           
         }
         //This follows mouse around
         { /* if (selectedPiece)
@@ -326,29 +312,21 @@ public class GameManager : MonoBehaviour
     private void UpdateBoardData()
     {
         ClearStringList();
-        //refresh each turn
-
         //This whole step is required or it will print System.string[,]
         //Collect data from board and place it into a single string
-
-        for (int y = 0; y < MAX; y++)
-        {
-            for (int x = 0; x < MAX; x++)
+        for (int y = 0; y < MAX; y++) for (int x = 0; x < MAX; x++)
             {
                 initialPawnStringPosition.Add(pawnPositionArray[x, y]);
                 threeLetters[y] += pawnPositionArray[x, y];
             }
-        }
 
         //reverse string preparation for mirror algorithm check
         //reverse in groups of three
-        for (int y = MAX - 1; y >= 0; y--)
-        {
-            for (int x = MAX - 1; x >= 0; x--)
+        for (int y = MAX - 1; y >= 0; y--) for (int x = MAX - 1; x >= 0; x--)
             {
                 revThreeLetters[y] += pawnPositionArray[x, y];
             }
-        }
+        
         mirrorAllPawnPositionIntoLongString = string.Join("", revThreeLetters[0], revThreeLetters[1], revThreeLetters[2]);
         // concat each string into one string
         pawnPositionsIntoLongString = string.Concat(initialPawnStringPosition);
@@ -368,10 +346,8 @@ public class GameManager : MonoBehaviour
         {
             int random = Random.Range(0, 2);
             print(random + "random");
-            if (random == 0)
-                isRevStringSelected = true;
-            else
-                isRevStringSelected = false;
+            if (random == 0) isRevStringSelected = true;
+            else isRevStringSelected = false;
             indexPawnPosition = algList.IndexOf(pawnPositionsIntoLongString);
         }
         else
@@ -382,43 +358,23 @@ public class GameManager : MonoBehaviour
 
         print("************");
         print("The first check algorithm " + indexPawnPosition + " and The whole whole string " + pawnPositionsIntoLongString + "\n");
-
-
-
     }
     // This method words with whitepawn ray casting
     private int WPPieceTrigging(int index)
     {
-
-
-        if (!WP[index].WPCanMakeMove())
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-
+        if (!WP[index].WPCanMakeMove()) return 1;
+        else return 0;
     }
-    public void ConfirmPlayerCanMove(int aCount, int bCount, int cCount)
+    private void ConfirmPlayerCanMove()
     {
         int countNumberOfPiece = 0;
-        int sum = aCount + cCount + bCount;
+        int sum = WPPieceTrigging(0)+ WPPieceTrigging(1)+ WPPieceTrigging(2);
 
-        foreach (string stuff in initialPawnStringPosition)
-        {
-            if (stuff == "W")
-                countNumberOfPiece++;
-        }
-        if (countNumberOfPiece == sum) // check if the amount of whitepiece on the board is equal to the amount trigged
-        {
-            //   print("plyer cant move, bot wins123");
-            isCanPlay = false;
-        }
-        else
-        {
-            isCanPlay = true;
-        }
+        foreach (string stuff in initialPawnStringPosition) if (stuff == "W") countNumberOfPiece++;
+        
+        // check if the amount of whitepiece on the board is equal to the amount trigged
+        if (countNumberOfPiece == sum)  isCanPlay = false;       
+        else isCanPlay = true;
+        
     }
 }

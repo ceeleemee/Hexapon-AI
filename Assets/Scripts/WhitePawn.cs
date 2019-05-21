@@ -50,18 +50,9 @@ public class WhitePawn : MonoBehaviour
     {
 
         if (!DetectKillPieceDiagonalForWhite(leftDiagonal) &&
-        DetectPieceUpForWhite(upDirection) &&
-        !DetectKillPieceDiagonalForWhite(rightDiagonal))
-        {
-        //print("false");
-            return false;
-        }
-        else
-        {
-          //  print("true");
-            return true;
-        }
-        
+            DetectPieceUpForWhite(upDirection) &&
+            !DetectKillPieceDiagonalForWhite(rightDiagonal))return false;       
+        else  return true;    
     }
 
 
@@ -74,32 +65,19 @@ public class WhitePawn : MonoBehaviour
         Ray rayUp = new Ray(transform.position, rayDirection);
         if (Physics.Raycast(rayUp, out hit, RAYLENGTH))
         {
-
             if ((hit.collider.tag == "BlackPawn"))
             {
-
                 Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, red);
-
                 isRayHitUp = true;
             }
-            else
-            {
-                isRayHitUp = false;
-            }
-
-
+            else isRayHitUp = false;
         }
-
         return isRayHitUp;
-
-
     }
     private bool DetectKillPieceDiagonalForWhite(Vector3 rayDirection)
     {
         RaycastHit hit;
         bool isDiagnoal = false;
-
-
         Debug.DrawRay(transform.position, rayDirection * RAYLENGTH, white);
         Ray rayUp = new Ray(transform.position, rayDirection);
         if (Physics.Raycast(rayUp, out hit, RAYLENGTH))
@@ -110,19 +88,8 @@ public class WhitePawn : MonoBehaviour
                 isDiagnoal = true;
 
             }
-            else
-            {
-                isDiagnoal = false;
-            }
-
+            else isDiagnoal = false;
         }
-
-
-
-        return isDiagnoal;
-    }
-    private void OnDestroy()
-    {
-        
+         return isDiagnoal;
     }
 }
