@@ -31,7 +31,7 @@ public class GameOverOverlayManager : MonoBehaviour
         gameOverOverlay.gameObject.SetActive(false);
         interval = 2f;
 
-        if ((EGM.playerScoreCount + EGM.aiScoreCount) % 3 == 0)
+        if ((EGM.playerScoreCount + EGM.aiScoreCount) % 5 == 0)
             ShowAd();
     }
     public void ShowAd()
