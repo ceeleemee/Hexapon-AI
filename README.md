@@ -19,7 +19,7 @@ If the AI loses a round, it will remove one beed from the last algorithm
 Run on Unity coded with c#. 
 Available for Android
 Test Cases to test if everything works 
-link https://play.google.com/store/apps/details?id=com.alki.HexaponAi
+link http://www.mediafire.com/file/b9gdt46v66bbjji/hexapon-ai.apk/file
 and here are the Test Cases https://github.com/ceeleemee/Hexapon-AI/tree/master/Test%20Cases
 
 # Sources
